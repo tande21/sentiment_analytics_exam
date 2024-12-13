@@ -10,6 +10,8 @@ import evaluate
 import numpy as np
 seqeval = evaluate.load("seqeval")
 
+import torch
+
 # Loading Model
 model_checkpoint ="distilbert/distilbert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
@@ -121,6 +123,10 @@ model = AutoModelForTokenClassification.from_pretrained(
     label2id=label2id
 )
 
+# Check if a GPU is available and use it
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"You are training on your {device}")
+model.to(device)  # Move the model to GPU if available
 training_args = TrainingArguments(
     output_dir="finNERbert",
     learning_rate=2e-5,
@@ -131,17 +137,23 @@ training_args = TrainingArguments(
     eval_strategy="epoch",
     save_strategy="epoch",
     load_best_model_at_end=True,
-    report_to="none"
+    report_to="none",
+    save_total_limit=2,
+    # Ensure Trainer uses GPU
+    no_cuda=False,  # If you want to explicitly disable GPU, set this to True
 )
 
 trainer = Trainer(
-    model=model,
+    model=model.to(device),  # Ensure the model is on the correct device
     args=training_args,
     train_dataset=tokenized_data["train"],
     eval_dataset=tokenized_data["test"],
-    processing_class=tokenizer,
     data_collator=data_collator,
     compute_metrics=compute_metrics,
 )
 
 trainer.train()
+
+trainer.evaluate(tokenized_data["validation"])
+
+trainer.save_model("/ner")
