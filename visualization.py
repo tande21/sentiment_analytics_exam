@@ -1,3 +1,10 @@
+"""
+file: visualization.py
+purpose: These are the functions we use to visualize,
+    doing the project for timeseries and reddit post.
+"""
+
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -37,16 +44,16 @@ def plot_price(df, ticker):
     plt.show()
 
 
-def common_words(df_format):
+def common_words(df_format, title):
     
     plot_path = './DATA/PLOTS/'
-    path = plot_path + 'reddit_common_words'
+    path = plot_path + title + '_common_words'
 
     # Handle NaN values by replacing them with an empty string
-    df_format['body'] = df_format['body'].replace(np.nan, '', regex=True)
+    df_format['combined_text'] = df_format['combined_text'].replace(np.nan, '', regex=True)
     # Use CountVectorizer to tokenize and count word frequencies
     vectorizer = CountVectorizer()
-    X = vectorizer.fit_transform(df_format['body'])
+    X = vectorizer.fit_transform(df_format['combined_text'])
     
     # Get the feature names (words)
     feature_names = vectorizer.get_feature_names_out()
@@ -74,8 +81,6 @@ def count_words(text):
     return len(words)
 
 
-
-    # 
 def word_count_distribution(df):
     plot_path = './DATA/PLOTS/' 
     path = plot_path + 'Reddit_word_distribution'

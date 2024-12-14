@@ -12,10 +12,18 @@ TODO:
     - Common words 2 time: Before and after
     - plot score histogram
     - Plot histogram of length post
+    - 3 plot for common words before emojis.
+    (lowercase i visualization?)
 
-    # Processing
-    - Remove stopwords
-    - concattenate wor
+    # Processing steps
+    - + concattenate title and body
+    - + remove http www, http com
+    - + Remove stopwords
+    - + remove empty rows (for combined_text) 23 empty rows 
+    - + get emojis to useful text 
+
+- In common words (visualization) - make it do so i takes combined_text
+
 
 """
 
@@ -27,6 +35,10 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 import nltk
 from nltk.corpus import stopwords
+import re
+import unicodedata
+from unidecode import unidecode
+
 
 
 # Our files
@@ -40,6 +52,7 @@ class DataHandler:
         - timeseries for stocks
 
     Preconditions:
+        _load_timeseries_data(...) can only use locally saved timeseries
     
     Parameters:
         ...
@@ -54,8 +67,11 @@ class DataHandler:
         
         # Data
         self.reddit_data = self._load_reddit_data()
-        self._preprocess_data()
+        self.reddit_data.head().to_csv('output.csv', index=False)
+        self.reddit_data = self._preprocess_data()
+        self.reddit_data.head().to_csv('new_output.csv', index=False)
         self.timeseries_data = self._load_timeseries_data(self.stock_list) 
+        print(self.reddit_data.head())
 
     def _load_reddit_data(self):
         file_path = './DATA/reddit_wsb.csv'
@@ -82,10 +98,9 @@ class DataHandler:
                     first_col = df.columns[0]
                     df.rename(columns={first_col: 'Date'}, inplace=True)
 
-
+                # Since we are changing the dataframe we have to create the labels again
                 df.rename(columns={df.columns[1]: 'Adj Close'}, inplace=True)
                 df.rename(columns={df.columns[2]: 'Close'}, inplace=True)
-
                 df.rename(columns={df.columns[3]: 'High'}, inplace=True)
                 df.rename(columns={df.columns[4]: 'Low'}, inplace=True)
                 df.rename(columns={df.columns[5]: 'Open'}, inplace=True)
@@ -101,7 +116,6 @@ class DataHandler:
                 # Remove rows where the 'Price' column is 'Ticker'
                 if 'Price' in df.columns:
                     df = df[df['Price'] != 'Ticker']
-                
                 timeseries_data[ticker] = df
                 print(f"Loaded data for {ticker}")
             else:
@@ -119,24 +133,81 @@ class DataHandler:
         return df
 
 
-    def remove_stop_words(self):
+    def remove_stop_words_and_links(self):
         df = self.reddit_data
         stop_words = set(stopwords.words('english')) 
+        additional_stopwords = {'www', 'http', 'https', 'com'}
+        stop_words.update(additional_stopwords)
+    
         filtered_text = []
-        print(df['combined_text'])
+        url_pattern = re.compile(r'https?://\S+|www\.\S+')  # Regex to match URLs
+    
         for text in df['combined_text']:
+            # Remove URLs
+            text = url_pattern.sub('', text)
             words = text.split()
+            # Remove stopwords and additional terms
             filtered_words = [word for word in words if word.lower() not in stop_words]
             filtered_text.append(" ".join(filtered_words))
+        
         df['combined_text'] = filtered_text
         return df
+    
 
     def _preprocess_data(self):
         df = self.reddit_data
+        title1 = 'stopwords'
+        title0 = 'no_stopwords'
+        title2 = 'no_stopwords_with_emojis'
+        
+        
+        # Combine title and body
         df = self.combine_title_and_body()
-        df = self.remove_stop_words()
-        self.reddit_data = df
+        
+        # Visualize before removing stop words
+        self.visualize_common_words(df, title1)
 
+        df = self.remove_stop_words_and_links()
+        
+        # Visualize before emojis to text
+        self.visualize_common_words(df, title0)
+        
+        # Remove emojis
+        df['combined_text'] = df['combined_text'].apply(self.deEmojify)
+        
+        # Drop rows where 'combined_text' is NaN or empty after stripping whitespace
+        df['combined_text'] = df['combined_text'].str.strip()  # Strip leading/trailing spaces
+        df = df[df['combined_text'].notna() & (df['combined_text'] != '')].reset_index(drop=True)
+        
+        ##### Check for any remaining empty rows #####
+        # empty_count = df['combined_text'].isna().sum() + (df['combined_text'] == '').sum()
+        # print(f"Number of empty rows: {empty_count}")
+    
+        # Visualize after preprocessing
+        self.visualize_common_words(df, title2)
+    
+        return df
+    
+
+    # Source: https://stackoverflow.com/questions/43797500/python-replace-unicode-emojis-with-ascii-characters
+    def deEmojify(self, inputString):
+        returnString = ""
+    
+        for character in inputString:
+            try:
+                character.encode("ascii")
+                returnString += character
+            except UnicodeEncodeError:
+                replaced = unidecode(str(character))
+                if replaced != '':
+                    returnString += replaced
+                else:
+                    try:
+                         returnString += "[" + unicodedata.name(character) + "]"
+                    except ValueError:
+                         returnString += "[x]"
+        return returnString
+    
         
         # Saving the datahandler 
     def saveDataHandlerClass(self, file_name):
@@ -156,8 +227,8 @@ class DataHandler:
         else:
             print(f"Data for ticker {ticker} is not loaded.")
 
-    def visualize_common_words(self):
-        visualization.common_words(self.reddit_data)
+    def visualize_common_words(self, df, title):
+        visualization.common_words(df, title)
 
     def visualize_word_count(self):
         visualization.word_count_distribution(self.reddit_data)
@@ -165,10 +236,10 @@ class DataHandler:
     def visualize_score_count(self):
         visualization.score_count_distribution(self.reddit_data)
 
-    
     """
     Getter functions
     """
+
     def get_class_name(self):
         return self.class_name
 
@@ -199,7 +270,6 @@ def loadDataHandler(class_name):
         data_handler = pickle.load(input)
         data_handler.get_class_name = data_handler.get_class_name()
         return data_handler
-
 
 
 """
