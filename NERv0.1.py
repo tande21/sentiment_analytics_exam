@@ -20,7 +20,15 @@ data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
 # Loading data
 ds = load_dataset("gtfintechlab/finer-ord-bio")
 
-labels_dict = {'O': 0, 'PER_B': 1, 'PER_I': 2, 'LOC_B': 3, 'LOC_I': 4, 'ORG_B': 5, 'ORG_I': 6}
+labels_dict = {
+    'O': 0,
+    'B-PER': 1,
+    'I-PER': 2,
+    'B-LOC': 3,
+    'I-LOC': 4,
+    'B-ORG': 5,
+    'I-ORG': 6
+}
 label_list = list(labels_dict.keys())
 
 # Tokenizing data
@@ -71,8 +79,12 @@ def validate_inputs(examples):
             return False
     return True
 
-tokenized_data = ds.map(tokenize_and_align_labels_safe, batched=True, batch_size=1)
+def has_no_none_tokens(example):
+    return None not in example["tokens"]
 
+ds_filtered = ds.filter(has_no_none_tokens)
+
+tokenized_data = ds_filtered.map(tokenize_and_align_labels, batched=True, batch_size=1)
 
 # Evaluation
 # \cite(https://colab.research.google.com/drive/1o0jjpWMgG1cX7eAYsV7hf2ptrOeS1fqS?usp=sharing#scrollTo=Ch-MVIk67p47)
@@ -98,21 +110,25 @@ def compute_metrics(p):
         "accuracy": results["overall_accuracy"],
     }
 
-id2label = {0: 'O',
-            1: 'PER_B',
-            2: 'PER_I',
-            3: 'LOC_B',
-            4: 'LOC_I',
-            5: 'ORG_B',
-            6: 'ORG_I'}
+id2label = {
+    0: 'O',
+    1: 'B-PER',
+    2: 'I-PER',
+    3: 'B-LOC',
+    4: 'I-LOC',
+    5: 'B-ORG',
+    6: 'I-ORG'
+}
 
-label2id = {'O': 0, 
-            'PER_B': 1, 
-            'PER_I': 2, 
-            'LOC_B': 3, 
-            'LOC_I': 4, 
-            'ORG_B': 5, 
-            'ORG_I': 6}
+label2id = {
+    'O': 0,
+    'B-PER': 1,
+    'I-PER': 2,
+    'B-LOC': 3,
+    'I-LOC': 4,
+    'B-ORG': 5,
+    'I-ORG': 6
+}
 
 from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
@@ -126,7 +142,9 @@ model = AutoModelForTokenClassification.from_pretrained(
 # Check if a GPU is available and use it
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"You are training on your {device}")
+
 model.to(device)  # Move the model to GPU if available
+
 training_args = TrainingArguments(
     output_dir="finNERbert",
     learning_rate=2e-5,
@@ -147,13 +165,17 @@ trainer = Trainer(
     model=model.to(device),  # Ensure the model is on the correct device
     args=training_args,
     train_dataset=tokenized_data["train"],
-    eval_dataset=tokenized_data["test"],
+    eval_dataset=tokenized_data["validation"],
     data_collator=data_collator,
     compute_metrics=compute_metrics,
 )
 
-trainer.train()
+#trainer.train()
+#trainer.evaluate()
 
-trainer.evaluate(tokenized_data["validation"])
+#trainer.save_model("finNERbert\model")
 
-trainer.save_model("/ner")
+example = tokenized_data["validation"][15]
+
+for token, cls in zip(example["tokens"], example["tags"]):
+  print(token, cls, id2label[cls])
