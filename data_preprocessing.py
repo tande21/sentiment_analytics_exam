@@ -32,6 +32,7 @@ TODO:
     - - Maybe look after if they are talking about shorting? 
     - + Get the sp500 data 
 
+    - - TROUBLE: inconsistent path names
 
 - In common words (visualization) - make it do so i takes combined_text
 
@@ -59,6 +60,8 @@ from nltk.corpus import stopwords
 import re
 import unicodedata
 from unidecode import unidecode
+
+from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
 
 
 
@@ -98,6 +101,8 @@ class DataHandler:
         self.start_date = None
         self.end_date = None
         self.output_df_to_csv('reddit_data')
+
+        self.model_path = 'DATA\MODEL'
 
     def _load_reddit_data(self):
         file_path = './DATA/reddit_wsb.csv'
@@ -207,9 +212,10 @@ class DataHandler:
 
     def _preprocess_data(self):
         df = self.reddit_data
-        title1 = 'stopwords'
         title0 = 'no_stopwords'
+        title1 = 'stopwords'
         title2 = 'no_stopwords_with_emojis'
+
         
         
         # Combine title and body
@@ -242,7 +248,11 @@ class DataHandler:
     
         # Visualize after preprocessing
         self.visualize_common_words(df, title2)
-    
+
+        #REMOVE COMMMENT LATER :)
+        #TODO: Add correct model to MODEL folder
+        #df = self.extractNERs()
+
         return df
     
 
@@ -265,6 +275,18 @@ class DataHandler:
                          returnString += "[x]"
         return returnString
     
+    def extractNERs(self):
+        df = self.reddit_data
+        tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+        model = AutoModelForTokenClassification.from_pretrained(self.model_path)
+        self.ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+        df["entities"] = df["combined_text"].apply(self.extract_entities)'
+        return df
+
+    def extract_entities(self, text):
+        ner_results = self.ner_pipeline(text)
+        entities = [{"entity": result["entity_group"], "word": result["word"]} for result in ner_results]
+        return entities
         
         # Saving the datahandler 
     def saveDataHandlerClass(self, file_name):
