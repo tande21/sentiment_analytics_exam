@@ -280,7 +280,7 @@ class DataHandler:
         tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         model = AutoModelForTokenClassification.from_pretrained(self.model_path)
         self.ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
-        df["entities"] = df["combined_text"].apply(self.extract_entities)'
+        df["entities"] = df["combined_text"].apply(self.extract_entities)
         return df
 
     def extract_entities(self, text):
