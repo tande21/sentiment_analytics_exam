@@ -47,7 +47,7 @@ def map_entity_to_ticker(entity, companies_df):
         companies_df["ticker"],
         companies_df["company name"],
         companies_df["short name"]
-    ]).dropna().str.lower().unique()
+    ]).dropna().unique()
 
     # Perform fuzzy matching
     matches = process.extract(entity, search_space, scorer=fuzz.ratio)
@@ -59,9 +59,9 @@ def map_entity_to_ticker(entity, companies_df):
     if similarity_score > 80:  # Adjust threshold for typos
         # Find the corresponding ticker in the dataset
         match_row = companies_df[
-            (companies_df["ticker"].str.lower() == best_match)
-            | (companies_df["company name"].str.lower() == best_match)
-            | (companies_df["short name"].str.lower() == best_match)
+            (companies_df["ticker"] == best_match)
+            | (companies_df["company name"] == best_match)
+            | (companies_df["short name"] == best_match)
         ]
         if not match_row.empty:
             return match_row.iloc[0]["ticker"]

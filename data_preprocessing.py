@@ -7,22 +7,44 @@ TODO:
     - remove time from post 
     - Load the annotated data
 
-
     # Analysis functions
-    - Common words 2 time: Before and after
-    - plot score histogram
-    - Plot histogram of length post
-    - 3 plot for common words before emojis.
-    (lowercase i visualization?)
+    - + Common words 2 time: Before and after
+    - - Plot score histogram
+    - + Plot histogram of length post
+    - + 3 plot for common words before emojis.
+    ? ? (lowercase i visualization?)
+
+    - plot number of posts each day.
+    - Plot sp500 index in time period
 
     # Processing steps
+    - + Drop those columns that are not needed
     - + concattenate title and body
     - + remove http www, http com
     - + Remove stopwords
     - + remove empty rows (for combined_text) 23 empty rows 
     - + get emojis to useful text 
+    - - Extract entities with FTNER model
+
+    - - Add titles multiple times
+    - + Rette dates i reddit posts (remove timestamp)
+    - + Create a function, that find first and last dates
+    - - Maybe look after if they are talking about shorting? 
+    - + Get the sp500 data 
+
+    - - TROUBLE: inconsistent path names
 
 - In common words (visualization) - make it do so i takes combined_text
+
+    # DATA
+        - REDDIT post
+        - US stock tickers (Only the US): https://www.kaggle.com/datasets/marketahead/all-us-stocks-tickers-company-info-logos
+        - TIMESERIES From yahoo
+
+
+TODO:
+- Mapping function from company name to ticker:  
+- 
 
 
 """
@@ -38,6 +60,8 @@ from nltk.corpus import stopwords
 import re
 import unicodedata
 from unidecode import unidecode
+
+from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
 
 
 
@@ -71,13 +95,40 @@ class DataHandler:
         self.reddit_data = self._preprocess_data()
         self.reddit_data.head().to_csv('new_output.csv', index=False)
         self.timeseries_data = self._load_timeseries_data(self.stock_list) 
-        print(self.reddit_data.head())
+        # self.sp500_data = self._load_sp500() 
+        # print(self.sp500_data.head())
+
+        self.start_date = None
+        self.end_date = None
+        self.output_df_to_csv('reddit_data')
+
+        self.model_path = 'DATA\MODEL'
 
     def _load_reddit_data(self):
         file_path = './DATA/reddit_wsb.csv'
         df_reddit = pd.read_csv(file_path)
         df_reddit = df_reddit.drop(['id', 'url', 'created'], axis=1)
         return df_reddit
+
+    def _save_sp500(self, START, END):
+        # Fetch data for the S&P 500 index (^GSPC)
+        sp500 = yf.Ticker("^GSPC")
+        historical_data = sp500.history(start=START, end=END)
+        historical_data.to_csv('./DATA/TIMESERIES/sp500.csv')
+
+    def _load_sp500(self):
+        self._save_sp500(self.start_date, self.end_date)
+        file_path = './DATA/TIMESERIES/sp500.csv'
+        df = pd.read_csv(file_path)
+        # df['Date'] = pd.to_datetime(df['Date']).dt.date  # Convert 'Date' to date-only format
+        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+        
+        # Drop only columns that exist in the file
+        columns_to_drop = ['Open', 'High', 'Low', 'Volume', 'Dividends', 'Stock Splits']
+        existing_columns_to_drop = [col for col in columns_to_drop if col in df.columns]
+        
+        df = df.drop(existing_columns_to_drop, axis=1)
+        return df
 
 
     def _load_timeseries_data(self, tickers):
@@ -122,7 +173,8 @@ class DataHandler:
                 print(f"File not found for ticker: {ticker}")
         
         return timeseries_data
-
+    
+   
     def combine_title_and_body(self):
         # Concatenate 'title' and 'body' columns into a new column called 'combined_text'
         df = self.reddit_data
@@ -131,6 +183,10 @@ class DataHandler:
 
         df['combined_text'] = df['title'] + ' ' + df['body']  # Add a space between the two columns
         return df
+
+    def find_min_max_date(self, df):
+        self.start_date = df['timestamp'].min()
+        self.last_date = df['timestamp'].max()
 
 
     def remove_stop_words_and_links(self):
@@ -156,9 +212,10 @@ class DataHandler:
 
     def _preprocess_data(self):
         df = self.reddit_data
-        title1 = 'stopwords'
         title0 = 'no_stopwords'
+        title1 = 'stopwords'
         title2 = 'no_stopwords_with_emojis'
+
         
         
         # Combine title and body
@@ -178,6 +235,12 @@ class DataHandler:
         # Drop rows where 'combined_text' is NaN or empty after stripping whitespace
         df['combined_text'] = df['combined_text'].str.strip()  # Strip leading/trailing spaces
         df = df[df['combined_text'].notna() & (df['combined_text'] != '')].reset_index(drop=True)
+        df['timestamp'] = pd.to_datetime(df['timestamp']).dt.date
+        # print(df['timestamp'].head())
+        self.find_min_max_date(df)
+    
+         
+
         
         ##### Check for any remaining empty rows #####
         # empty_count = df['combined_text'].isna().sum() + (df['combined_text'] == '').sum()
@@ -185,7 +248,11 @@ class DataHandler:
     
         # Visualize after preprocessing
         self.visualize_common_words(df, title2)
-    
+
+        #REMOVE COMMMENT LATER :)
+        #TODO: Add correct model to MODEL folder
+        #df = self.extractNERs()
+
         return df
     
 
@@ -208,6 +275,18 @@ class DataHandler:
                          returnString += "[x]"
         return returnString
     
+    def extractNERs(self):
+        df = self.reddit_data
+        tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+        model = AutoModelForTokenClassification.from_pretrained(self.model_path)
+        self.ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+        df["entities"] = df["combined_text"].apply(self.extract_entities)
+        return df
+
+    def extract_entities(self, text):
+        ner_results = self.ner_pipeline(text)
+        entities = [{"entity": result["entity_group"], "word": result["word"]} for result in ner_results]
+        return entities
         
         # Saving the datahandler 
     def saveDataHandlerClass(self, file_name):
@@ -262,6 +341,27 @@ class DataHandler:
             print(f"Ticker '{ticker}' not found in the data.")
             return None
 
+    def output_df_to_csv(self, data_name):
+        file_path = './DATA/'  # Directory where the CSV will be saved
+        os.makedirs(file_path, exist_ok=True)  # Ensure the directory exists
+        
+        # Use getattr to dynamically access the attribute by name
+        data_frame = getattr(self, data_name, None)
+        if isinstance(data_frame, pd.DataFrame):
+            # Add 'processed_' prefix to the filename
+            file_name = f"processed_{data_name}.csv"
+            full_file_path = os.path.join(file_path, file_name)
+            
+            # Save to CSV
+            data_frame.to_csv(full_file_path, index=False)
+            print(f"DataFrame '{data_name}' saved to: {os.path.abspath(full_file_path)}")
+        else:
+            print(f"'{data_name}' is not a valid DataFrame attribute.")
+        
+
+    def debugger_helper(self):
+        return None
+
           
 def loadDataHandler(class_name):
     path = './DATA/'
@@ -291,6 +391,14 @@ def timeseries_to_csv(ticker, START, END):
     stock = yf.download(ticker, start=START, end=END)
     stock.to_csv(path + ticker + '.csv', index=True)
 
+
+def sp500(START, END):
+    # Fetch data for the S&P 500 index (^GSPC)
+    sp500 = yf.Ticker("^GSPC")
+    historical_data = sp500.history(start=START, end=END)
+    historical_data.to_csv('./DATA/TIMESERIES/sp500.csv')
+
+
 def tickers_timeseries_to_csv(tickers, START, END):
         path = './DATA/TIMESERIES/'
         
@@ -301,11 +409,12 @@ def tickers_timeseries_to_csv(tickers, START, END):
 
 
 
-tickers = ['TSLA', 'MSFT']
-START = '2020-01-01'
-END = '2022-01-01'
-
-# tickers_timeseries_to_csv(tickers, START, END)
+# tickers = ['TSLA', 'MSFT']
+# START = '2020-01-01'
+# END = '2022-01-01'
+# 
+# # tickers_timeseries_to_csv(tickers, START, END)
+# sp500(START, END)
 
 
 # download_annotate()

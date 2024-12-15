@@ -24,12 +24,13 @@ if __name__ == "__main__":
     df = data_handler.get_ticker_dataframe('TSLA')
     # data_handler.visualize_ticker('TSLA')
     data_handler.get_ticker_dataframe('MSFT')
+    # df = data_handler.reddit
    
     # data_handler.visualize_common_words(df_reddit, 'clean')
     data_handler.visualize_word_count()
     data_handler.visualize_score_count()
 
-    df = data_handler.get_reddit_data()
+    # df = data_handler.get_reddit_data()
     # empty_count = df['combined_text'].isna().sum() + (df['combined_text'] == '').sum()
     # print(f"Number of empty rows: {empty_count}")
 
