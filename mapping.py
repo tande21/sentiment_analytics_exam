@@ -76,4 +76,3 @@ print("Mapping NER entities to tickers:")
 for entity in ner_output:
     ticker = map_entity_to_ticker(entity, companies_df)
     print(f"Entity: {entity} -> Ticker: {ticker}")
-

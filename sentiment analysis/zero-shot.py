@@ -33,8 +33,12 @@ if __name__ == "__main__":
         "Tesla reported a 30% increase in revenue for the third quarter, driven by strong demand for electric vehicles.",
         "Investors are advised to diversify their portfolios to minimize risk in volatile market conditions.",
         "The Federal Reserve announced a 0.25% interest rate hike to combat rising inflation, signaling a tightening of monetary policy.",
-        "Setting aside a portion of your income each month for retirement can significantly improve your long-term financial security."
-
+        "Setting aside a portion of your income each month for retirement can significantly improve your long-term financial security.",
+        "ROCKET, GEM STONE, PERSON RAISING BOTH HANDS IN CELEBRATION",
+        "person raising both hands in celebration person raising both hands in celebration person raising both hands in celebration person raising both hands in celebration",
+        "person raising both hands in celebration",
+        "PERSON RAISING BOTH HANDS IN CELEBRATION",
+        "celebration"
     ]
 
     # Example usage of zero-shot classifier

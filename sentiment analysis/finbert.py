@@ -31,6 +31,7 @@ sentAnalysis("Whatever, let's see")
 sentAnalysis("Haven't had a worse day")
 
 print("------------------------------------")
+sentAnalysis("ROCKET, GEM STONE, PERSON RAISING BOTH HANDS IN CELEBRATION")
 sentAnalysis("The stock market surged today, with the S&P 500 reaching an all-time high due to strong corporate earnings.")
 sentAnalysis("Investors are advised to diversify their portfolios to minimize risk in volatile market conditions.")
 sentAnalysis("Tesla reported a 30% increase in revenue for the third quarter, driven by strong demand for electric vehicles.")
