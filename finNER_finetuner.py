@@ -3,7 +3,8 @@ from transformers import (
     AutoModelForTokenClassification,
     TrainingArguments,
     Trainer,
-    DataCollatorForTokenClassification
+    DataCollatorForTokenClassification,
+    EarlyStoppingCallback
 )
 from datasets import load_dataset
 import evaluate
@@ -24,7 +25,7 @@ class FiNER_finetune():
             "learning_rate": 2e-5,
             "per_device_train_batch_size": 16,
             "per_device_eval_batch_size": 16,
-            "num_train_epochs": 3,
+            "num_train_epochs": 10,
             "weight_decay": 0.01,
             "eval_strategy": "epoch",
             "save_strategy": "epoch",
@@ -157,9 +158,9 @@ class FiNER_finetune():
 
         args = TrainingArguments(
             **self.training_args,
-            logging_dir='./logs',  # Add logging directory
-            logging_strategy="steps",
-            logging_steps=10,  # Log every 10 steps
+            logging_dir=os.path.join(self.training_args["output_dir"], "logs"),  # Add logging directory
+            logging_strategy="epoch",
+            logging_steps=100,  # Log every 10 steps
             push_to_hub=False  # Disable if you're not using Hugging Face Hub
         )
 
@@ -170,7 +171,9 @@ class FiNER_finetune():
             eval_dataset=self.dataset["validation"],
             data_collator=self.data_collator,
             compute_metrics=self.compute_metrics,
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],  # Add early stopping callback
         )
+
 
         # Optional: Print some dataset statistics
         print(f"Training dataset size: {len(self.dataset['train'])}")
@@ -191,6 +194,4 @@ class FiNER_finetune():
 
         # Save the tokenizer to the same subfolder
         self.tokenizer.save_pretrained(model_save_path)
-
-        print(f"Training complete. Metrics: {train_result.metrics}")
         print(f"Training complete. Model and tokenizer saved to {model_save_path}")
