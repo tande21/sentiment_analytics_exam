@@ -24,6 +24,7 @@ TODO:
     - + Remove stopwords
     - + remove empty rows (for combined_text) 23 empty rows 
     - + get emojis to useful text 
+    - - Extract entities with FTNER model
 
     - - Add titles multiple times
     - + Rette dates i reddit posts (remove timestamp)
