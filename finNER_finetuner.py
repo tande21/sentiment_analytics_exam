@@ -6,6 +6,7 @@ from transformers import (
     DataCollatorForTokenClassification,
     EarlyStoppingCallback
 )
+import matplotlib as plt
 from datasets import load_dataset
 import evaluate
 import numpy as np
@@ -195,3 +196,27 @@ class FiNER_finetune():
         # Save the tokenizer to the same subfolder
         self.tokenizer.save_pretrained(model_save_path)
         print(f"Training complete. Model and tokenizer saved to {model_save_path}")
+
+        # Plot training metrics
+        logs = trainer.state.log_history
+        epochs = [log["epoch"] for log in logs if "epoch" in log]
+        train_losses = [log["loss"] for log in logs if "loss" in log]
+        eval_losses = [log["eval_loss"] for log in logs if "eval_loss" in log]
+
+        plt.figure(figsize=(10, 6))
+        plt.plot(epochs, train_losses, label="Train Loss", marker="o")
+        plt.plot(epochs, eval_losses, label="Eval Loss", marker="o")
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.title("Learning Curve")
+        plt.legend()
+        plt.grid()
+        plt.savefig(os.path.join(self.training_args["output_dir"], "learning_curve.png"))
+        print(f"Learning curve saved to {os.path.join(self.training_args['output_dir'], 'learning_curve.png')}")
+
+        # Evaluate on the test set
+        print("Evaluating the best model on the test set...")
+        test_results = trainer.evaluate(eval_dataset=self.dataset["test"])
+        trainer.log_metrics("test", test_results)
+        trainer.save_metrics("test", test_results)
+        print(f"Test results: {test_results}")
