@@ -6,7 +6,7 @@ import numpy as np
 label_list = ['O', 'B-PER', 'I-PER', 'B-LOC', 'I-LOC', 'B-ORG', 'I-ORG']
 
 # Load the tokenizer and model from the saved directory
-model_path = "distilbertfinNER\model"  # Path to your fine-tuned model
+model_path = 'dslim/bert-base-NER'  # Path to your fine-tuned model
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForTokenClassification.from_pretrained(model_path)
 
@@ -111,3 +111,11 @@ def group_entities(entities):
 # Example of grouping entities
 print("\nGrouped Entities:")
 print(group_entities(entities))
+
+"""
+Interesting sentences to test:
+Aluminum prices have declined in recent months on concerns about the eurozone crisis and its implications for demand, with the London Metal Exchange (LME) three-month aluminum price down to $ 2,100 a tonne from its peak of $ 2,800 in May.
+
+Add more from actual dataset :)
+
+"""
