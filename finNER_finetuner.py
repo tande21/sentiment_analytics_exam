@@ -6,7 +6,7 @@ from transformers import (
     DataCollatorForTokenClassification,
     EarlyStoppingCallback
 )
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from datasets import load_dataset
 import evaluate
 import numpy as np
@@ -161,7 +161,7 @@ class FiNER_finetune():
             **self.training_args,
             logging_dir=os.path.join(self.training_args["output_dir"], "logs"),  # Add logging directory
             logging_strategy="epoch",
-            logging_steps=100,  # Log every 10 steps
+            logging_steps=20,  # Log every 10 steps
             push_to_hub=False  # Disable if you're not using Hugging Face Hub
         )
 
@@ -172,7 +172,7 @@ class FiNER_finetune():
             eval_dataset=self.dataset["validation"],
             data_collator=self.data_collator,
             compute_metrics=self.compute_metrics,
-            callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],  # Add early stopping callback
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=3)],  # Add early stopping callback
         )
 
 
@@ -198,11 +198,21 @@ class FiNER_finetune():
         print(f"Training complete. Model and tokenizer saved to {model_save_path}")
 
         # Plot training metrics
+        # Extract logged data
         logs = trainer.state.log_history
+
+        # Filter logs for training and evaluation losses
         epochs = [log["epoch"] for log in logs if "epoch" in log]
         train_losses = [log["loss"] for log in logs if "loss" in log]
         eval_losses = [log["eval_loss"] for log in logs if "eval_loss" in log]
 
+        # Align lengths
+        min_length = min(len(epochs), len(train_losses), len(eval_losses))
+        epochs = epochs[:min_length]
+        train_losses = train_losses[:min_length]
+        eval_losses = eval_losses[:min_length]
+
+        # Plot
         plt.figure(figsize=(10, 6))
         plt.plot(epochs, train_losses, label="Train Loss", marker="o")
         plt.plot(epochs, eval_losses, label="Eval Loss", marker="o")
