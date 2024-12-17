@@ -1,0 +1,334 @@
+Sentence 1/26:
+Processing text: Had a bad day
+Tokenized input: {'input_ids': tensor([[ 101, 2018, 1037, 2919, 2154,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 4.1869, -3.4474]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 2/26:
+Processing text: The company's profits increased significantly last quarter.
+Tokenized input: {'input_ids': tensor([[  101,  1996,  2194,  1005,  1055, 11372,  3445,  6022,  2197,  4284,
+          1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-3.0234,  3.1542]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 3/26:
+Processing text: Whatever, let's see
+Tokenized input: {'input_ids': tensor([[ 101, 3649, 1010, 2292, 1005, 1055, 2156,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-2.6224,  2.6584]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 4/26:
+Processing text: Haven't had a worse day
+Tokenized input: {'input_ids': tensor([[ 101, 4033, 1005, 1056, 2018, 1037, 4788, 2154,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 0.3002, -0.1626]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 5/26:
+Processing text: [ROCKET]
+Tokenized input: {'input_ids': tensor([[ 101, 1031, 7596, 1033,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1]])}
+Logits: tensor([[-2.7087,  2.7889]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 6/26:
+Processing text: [GEM STONE]
+Tokenized input: {'input_ids': tensor([[  101,  1031, 17070,  2962,  1033,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-4.0077,  4.3120]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 7/26:
+Processing text: [PERSON RAISING BOTH HANDS IN CELEBRATION]
+Tokenized input: {'input_ids': tensor([[ 101, 1031, 2711, 6274, 2119, 2398, 1999, 7401, 1033,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-3.0140,  3.2433]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 8/26:
+Processing text: [ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]
+Tokenized input: {'input_ids': tensor([[  101,  1031,  7596,  1033,  1031, 17070,  2962,  1033,  1031,  2711,
+          6274,  2119,  2398,  1999,  7401,  1033,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-3.6355,  3.9465]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 9/26:
+Processing text: PERSON RAISING BOTH HANDS IN CELEBRATION
+Tokenized input: {'input_ids': tensor([[ 101, 2711, 6274, 2119, 2398, 1999, 7401,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-3.6690,  3.9903]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 10/26:
+Processing text: person raising both hands in celebration
+Tokenized input: {'input_ids': tensor([[ 101, 2711, 6274, 2119, 2398, 1999, 7401,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-3.6690,  3.9903]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 11/26:
+Processing text: ROCKET, GEM STONE, PERSON RAISING BOTH HANDS IN CELEBRATION
+Tokenized input: {'input_ids': tensor([[  101,  7596,  1010, 17070,  2962,  1010,  2711,  6274,  2119,  2398,
+          1999,  7401,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-4.0238,  4.3978]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 12/26:
+Processing text: money, sending message. [ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]
+Tokenized input: {'input_ids': tensor([[  101,  2769,  1010,  6016,  4471,  1012,  1031,  7596,  1033,  1031,
+         17070,  2962,  1033,  1031,  2711,  6274,  2119,  2398,  1999,  7401,
+          1033,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-2.6067,  2.7621]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 13/26:
+Processing text: BREAKING
+Tokenized input: {'input_ids': tensor([[ 101, 4911,  102]]), 'attention_mask': tensor([[1, 1, 1]])}
+Logits: tensor([[0.1157, 0.1224]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 14/26:
+Processing text: The stock market surged today, with the S&P 500 reaching an all-time high due to strong corporate earnings.
+Tokenized input: {'input_ids': tensor([[  101,  1996,  4518,  3006, 18852,  2651,  1010,  2007,  1996,  1055,
+          1004,  1052,  3156,  4285,  2019,  2035,  1011,  2051,  2152,  2349,
+          2000,  2844,  5971, 16565,  1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1]])}
+Logits: tensor([[-3.7589,  4.0380]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 15/26:
+Processing text: Investors are advised to diversify their portfolios to minimize risk in volatile market conditions.
+Tokenized input: {'input_ids': tensor([[  101,  9387,  2024,  9449,  2000, 18612,  8757,  2037, 11103,  2015,
+          2000, 18478,  3891,  1999, 20606,  3006,  3785,  1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 2.0128, -1.8803]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 16/26:
+Processing text: Tesla reported a 30% increase in revenue for the third quarter, driven by strong demand for electric vehicles.
+Tokenized input: {'input_ids': tensor([[  101, 26060,  2988,  1037,  2382,  1003,  3623,  1999,  6599,  2005,
+          1996,  2353,  4284,  1010,  5533,  2011,  2844,  5157,  2005,  3751,
+          4683,  1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[-2.7884,  2.9790]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 17/26:
+Processing text: The Federal Reserve announced a 0.25% interest rate hike to combat rising inflation, signaling a tightening of monetary policy.
+Tokenized input: {'input_ids': tensor([[  101,  1996,  2976,  3914,  2623,  1037,  1014,  1012,  2423,  1003,
+          3037,  3446, 21857,  2000,  4337,  4803, 14200,  1010, 14828,  1037,
+         18711,  1997, 12194,  3343,  1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1]])}
+Logits: tensor([[ 1.9099, -1.6827]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 18/26:
+Processing text: Setting aside a portion of your income each month for retirement can significantly improve your long-term financial security.
+Tokenized input: {'input_ids': tensor([[ 101, 4292, 4998, 1037, 4664, 1997, 2115, 3318, 2169, 3204, 2005, 5075,
+         2064, 6022, 5335, 2115, 2146, 1011, 2744, 3361, 3036, 1012,  102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])} 
+Logits: tensor([[-2.3815,  2.4425]])
+Predicted Class ID: 1
+Predicted Label: POSITIVE
+--------------------------------------------------
+Sentence 19/26:
+Processing text: I believe right now is one of those rare opportunities that we all can help and do good. Some of these companies like GME, AMC are good companies that's been hit hard by this pandemic. Hedgefunds and Wallstreet just want to short these companies to zero and make millions. I really think right now we have enough support and enough of us to change that direction in history. Wallstreet says  well weak companies need to just go. 10 yrs down the road though I want to be able to watch a movie in a movie theater with my family. If we all buy and hold in what we believe in it gives these companies a second chance and we as a group can stop these companies from being shorted to death and just disappear. Just my 2 cents!
+Tokenized input: {'input_ids': tensor([[  101,  1045,  2903,  2157,  2085,  2003,  2028,  1997,  2216,  4678,
+          6695,  2008,  2057,  2035,  2064,  2393,  1998,  2079,  2204,  1012,
+          2070,  1997,  2122,  3316,  2066, 13938,  2063,  1010, 21962,  2024,
+          2204,  3316,  2008,  1005,  1055,  2042,  2718,  2524,  2011,  2023,
+          6090,  3207,  7712,  1012, 17834, 11263, 18376,  1998,  3681, 13334,
+          2102,  2074,  2215,  2000,  2460,  2122,  3316,  2000,  5717,  1998,
+          2191,  8817,  1012,  1045,  2428,  2228,  2157,  2085,  2057,  2031,
+          2438,  2490,  1998,  2438,  1997,  2149,  2000,  2689,  2008,  3257,
+          1999,  2381,  1012,  3681, 13334,  2102,  2758,  2092,  5410,  3316,
+          2342,  2000,  2074,  2175,  1012,  2184,  1061,  2869,  2091,  1996,
+          2346,  2295,  1045,  2215,  2000,  2022,  2583,  2000,  3422,  1037,
+          3185,  1999,  1037,  3185,  4258,  2007,  2026,  2155,  1012,  2065,
+          2057,  2035,  4965,  1998,  2907,  1999,  2054,  2057,  2903,  1999,
+          2009,  3957,  2122,  3316,  1037,  2117,  3382,  1998,  2057,  2004,
+          1037,  2177,  2064,  2644,  2122,  3316,  2013,  2108,  2460,  2098,
+          2000,  2331,  1998,  2074, 10436,  1012,  2074,  2026,  1016, 16653,
+           999,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 1.1749, -0.9317]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 20/26:
+Processing text: Lets imagine GME has gone to 50,000. The market has gone offerless, when you exercise your option instead of stock you get 'oops, please wait while we connect you to our operator' and your shitty broker is simply ghosting you and turning off the phone line. Even your stupid lawyer refuses the case because supereme court has suspended the constitution for GME stock holders. But lets do some maths. If every person on the sub bought 1 call option strike 100. At price 50k that means the seller is liable for 49900x100x2,000,000= 10trillion. This will destroy not only the dirty dealing worthless billionaires and the shitty market making crooks, it will destroy the entire economy and not a single one of you will get paid because no one has 10 trillion to pay you, and even if they had, they wouldnt, the fed is not going to print 10 T so you can make your gains, no way. The US financial market is a hollow crooked ponzi and has been for years and there is no way they can stand or accept this hit. The real price for GME is infinity but at that price, unfortunately your call option is worth nothing. It will be reneged.
+Tokenized input: {'input_ids': tensor([[  101, 11082,  5674, 13938,  2063,  2038,  2908,  2000,  2753,  1010,
+          2199,  1012,  1996,  3006,  2038,  2908,  3749,  3238,  1010,  2043,
+          2017,  6912,  2115,  5724,  2612,  1997,  4518,  2017,  2131,  1005,
+          1051, 11923,  1010,  3531,  3524,  2096,  2057,  7532,  2017,  2000,
+          2256,  6872,  1005,  1998,  2115, 28543, 20138,  2003,  3432,  5745,
+          2075,  2017,  1998,  3810,  2125,  1996,  3042,  2240,  1012,  2130,
+          2115,  5236,  5160, 10220,  1996,  2553,  2138,  3565, 21382,  2457,
+          2038,  6731,  1996,  4552,  2005, 13938,  2063,  4518, 13304,  1012,
+          2021, 11082,  2079,  2070,  8785,  2015,  1012,  2065,  2296,  2711,
+          2006,  1996,  4942,  4149,  1015,  2655,  5724,  4894,  2531,  1012,
+          2012,  3976,  2753,  2243,  2008,  2965,  1996, 14939,  2003, 20090,
+          2005,  4749, 21057,  2692,  2595, 18613,  2595,  2475,  1010,  2199,
+          1010,  2199,  1027,  2184, 18886,  6894,  2239,  1012,  2023,  2097,
+          6033,  2025,  2069,  1996,  6530,  7149, 22692, 22301,  2015,  1998,
+          1996, 28543,  3006,  2437, 19302,  2015,  1010,  2009,  2097,  6033,
+          1996,  2972,  4610,  1998,  2025,  1037,  2309,  2028,  1997,  2017,
+          2097,  2131,  3825,  2138,  2053,  2028,  2038,  2184, 23458,  2000,
+          3477,  2017,  1010,  1998,  2130,  2065,  2027,  2018,  1010,  2027,
+          2876,  2102,  1010,  1996,  7349,  2003,  2025,  2183,  2000,  6140,
+          2184,  1056,  2061,  2017,  2064,  2191,  2115, 12154,  1010,  2053,
+          2126,  1012,  1996,  2149,  3361,  3006,  2003,  1037,  8892, 15274,
+         13433, 14191,  2072,  1998,  2038,  2042,  2005,  2086,  1998,  2045,
+          2003,  2053,  2126,  2027,  2064,  3233,  2030,  5138,  2023,  2718,
+          1012,  1996,  2613,  3976,  2005, 13938,  2063,  2003, 15579,  2021,
+          2012,  2008,  3976,  1010,  6854,  2115,  2655,  5724,  2003,  4276,
+          2498,  1012,  2009,  2097,  2022, 10731,  5999,  1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,    
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 4.3542, -3.5768]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 21/26:
+Processing text: Obviously this GME hype cant go on forever ( Well maybe it can lol Tesla). But what does it mean that a multi billion dollar hedge fund tried shorting GME. Who is the next GME and could this be an indicator that the entire stock market will start to go down very soon because MAJOR money will be getting pulled out because they don’t wanna end up as the next Melvin? Or is this just a lone hiccup in the stonks only go up universe? I feel some type of stock market trap will be upon us in the coming months.       
+Tokenized input: {'input_ids': tensor([[  101,  5525,  2023, 13938,  2063,  1044, 18863,  2064,  2102,  2175,
+          2006,  5091,  1006,  2092,  2672,  2009,  2064,  8840,  2140, 26060,
+          1007,  1012,  2021,  2054,  2515,  2009,  2812,  2008,  1037,  4800,
+          4551,  7922, 17834,  4636,  2699,  2460,  2075, 13938,  2063,  1012,
+          2040,  2003,  1996,  2279, 13938,  2063,  1998,  2071,  2023,  2022,
+          2019, 17245,  2008,  1996,  2972,  4518,  3006,  2097,  2707,  2000,
+          2175,  2091,  2200,  2574,  2138,  2350,  2769,  2097,  2022,  2893,
+          2766,  2041,  2138,  2027,  2123,  1521,  1056, 10587,  2203,  2039,
+          2004,  1996,  2279, 20993,  1029,  2030,  2003,  2023,  2074,  1037,
+         10459,  7632,  9468,  6279,  1999,  1996,  2358,  2239,  5705,  2069,
+          2175,  2039,  5304,  1029,  1045,  2514,  2070,  2828,  1997,  4518,
+          3006,  8132,  2097,  2022,  2588,  2149,  1999,  1996,  2746,  2706,
+          1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1]])}
+Logits: tensor([[ 4.1528, -3.4672]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 22/26:
+Processing text: Those whole GME / AMC thing seems awesome. I'm loving it. But I'm not getting the concept of why the short sellers aren't just cutting their losses now while theta is chewing the shit out of them and their losses continue to increase. Do they really think the bottom is going to fall out at the last minute...so much that they would risk billions more? I've gotta be missing something here...what is it?
+Tokenized input: {'input_ids': tensor([[  101,  2216,  2878, 13938,  2063,  1013, 21962,  2518,  3849, 12476,
+          1012,  1045,  1005,  1049,  8295,  2009,  1012,  2021,  1045,  1005,
+          1049,  2025,  2893,  1996,  4145,  1997,  2339,  1996,  2460, 19041,
+          4995,  1005,  1056,  2074,  6276,  2037,  6409,  2085,  2096, 23963,
+          2003, 17492,  1996,  4485,  2041,  1997,  2068,  1998,  2037,  6409,
+          3613,  2000,  3623,  1012,  2079,  2027,  2428,  2228,  1996,  3953,
+          2003,  2183,  2000,  2991,  2041,  2012,  1996,  2197,  3371,  1012,
+          1012,  1012,  2061,  2172,  2008,  2027,  2052,  3891, 25501,  2062,
+          1029,  1045,  1005,  2310, 10657,  2022,  4394,  2242,  2182,  1012,
+          1012,  1012,  2054,  2003,  2009,  1029,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1]])}
+Logits: tensor([[ 3.6551, -3.0331]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 23/26:
+Processing text: believe right one rare opportunities help good. companies like GME, AMC good companies hit hard pandemic. Hedgefunds Wallstreet want short companies zero make millions. really think right enough support enough change direction history. Wallstreet says well weak companies need go. 10 yrs road though want able watch movie movie theater family. If buy hold believe gives companies second chance group stop companies shorted death disappear. 2 cents!
+Tokenized input: {'input_ids': tensor([[  101,  2903,  2157,  2028,  4678,  6695,  2393,  2204,  1012,  3316,
+          2066, 13938,  2063,  1010, 21962,  2204,  3316,  2718,  2524,  6090,
+          3207,  7712,  1012, 17834, 11263, 18376,  3681, 13334,  2102,  2215,
+          2460,  3316,  5717,  2191,  8817,  1012,  2428,  2228,  2157,  2438,
+          2490,  2438,  2689,  3257,  2381,  1012,  3681, 13334,  2102,  2758,
+          2092,  5410,  3316,  2342,  2175,  1012,  2184,  1061,  2869,  2346,
+          2295,  2215,  2583,  3422,  3185,  3185,  4258,  2155,  1012,  2065,
+          4965,  2907,  2903,  3957,  3316,  2117,  3382,  2177,  2644,  3316,
+          2460,  2098,  2331, 10436,  1012,  1016, 16653,   999,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,    
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 2.4268, -2.0178]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 24/26:
+Processing text: Lets imagine GME gone 50,000. market gone offerless, exercise option instead stock get 'oops, please wait connect operator' shitty broker simply ghosting turning phone line. Even stupid lawyer refuses case supereme court suspended constitution GME stock holders. But lets maths. If every person sub bought 1 call option strike 100. At price 50k means seller liable 49900x100x2,000,000= 10trillion. destroy dirty dealing worthless billionaires shitty market making crooks, destroy entire economy single get paid one 10 trillion pay even had, wouldnt, fed going print 10 T make gains, way. US financial market hollow crooked ponzi years way stand accept hit. real price GME infinity price, unfortunately call option worth nothing. reneged.
+Tokenized input: {'input_ids': tensor([[  101, 11082,  5674, 13938,  2063,  2908,  2753,  1010,  2199,  1012,
+          3006,  2908,  3749,  3238,  1010,  6912,  5724,  2612,  4518,  2131,
+          1005,  1051, 11923,  1010,  3531,  3524,  7532,  6872,  1005, 28543,
+         20138,  3432,  5745,  2075,  3810,  3042,  2240,  1012,  2130,  5236,
+          5160, 10220,  2553,  3565, 21382,  2457,  6731,  4552, 13938,  2063,
+          4518, 13304,  1012,  2021, 11082,  8785,  2015,  1012,  2065,  2296,
+          2711,  4942,  4149,  1015,  2655,  5724,  4894,  2531,  1012,  2012,
+          3976,  2753,  2243,  2965, 14939, 20090,  4749, 21057,  2692,  2595,
+         18613,  2595,  2475,  1010,  2199,  1010,  2199,  1027,  2184, 18886,
+          6894,  2239,  1012,  6033,  6530,  7149, 22692, 22301,  2015, 28543,
+          3006,  2437, 19302,  2015,  1010,  6033,  2972,  4610,  2309,  2131,
+          3825,  2028,  2184, 23458,  3477,  2130,  2018,  1010,  2876,  2102,
+          1010,  7349,  2183,  6140,  2184,  1056,  2191, 12154,  1010,  2126,
+          1012,  2149,  3361,  3006,  8892, 15274, 13433, 14191,  2072,  2086,
+          2126,  3233,  5138,  2718,  1012,  2613,  3976, 13938,  2063, 15579,
+          3976,  1010,  6854,  2655,  5724,  4276,  2498,  1012, 10731,  5999,
+          1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 3.8708, -3.2228]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 25/26:
+Processing text: Obviously GME hype cant go forever ( Well maybe lol Tesla). But mean multi billion dollar hedge fund tried shorting GME. Who next GME could indicator entire stock market start go down soon MAJOR money getting pulled dont wanna end next Melvin? Or lone hiccup stonks go universe? feel type stock market trap upon coming months.
+Tokenized input: {'input_ids': tensor([[  101,  5525, 13938,  2063,  1044, 18863,  2064,  2102,  2175,  5091,
+          1006,  2092,  2672,  8840,  2140, 26060,  1007,  1012,  2021,  2812,
+          4800,  4551,  7922, 17834,  4636,  2699,  2460,  2075, 13938,  2063,
+          1012,  2040,  2279, 13938,  2063,  2071, 17245,  2972,  4518,  3006,
+          2707,  2175,  2091,  2574,  2350,  2769,  2893,  2766,  2123,  2102,
+         10587,  2203,  2279, 20993,  1029,  2030, 10459,  7632,  9468,  6279,
+          2358,  2239,  5705,  2175,  5304,  1029,  2514,  2828,  4518,  3006,
+          8132,  2588,  2746,  2706,  1012,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1]])}
+Logits: tensor([[ 3.7896, -3.1737]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------
+Sentence 26/26:
+Processing text: Those whole GME / AMC thing seems awesome. loving. But getting concept short sellers cutting losses theta chewing shit losses continue increase. Do really think bottom going fall last minute...so much would risk billions more? got ta missing something... what?
+Tokenized input: {'input_ids': tensor([[  101,  2216,  2878, 13938,  2063,  1013, 21962,  2518,  3849, 12476,
+          1012,  8295,  1012,  2021,  2893,  4145,  2460, 19041,  6276,  6409,
+         23963, 17492,  4485,  6409,  3613,  3623,  1012,  2079,  2428,  2228,
+          3953,  2183,  2991,  2197,  3371,  1012,  1012,  1012,  2061,  2172,
+          2052,  3891, 25501,  2062,  1029,  2288, 11937,  4394,  2242,  1012,
+          1012,  1012,  2054,  1029,   102]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1]])}
+Logits: tensor([[ 3.3555, -2.8113]])
+Predicted Class ID: 0
+Predicted Label: NEGATIVE
+--------------------------------------------------

@@ -1,0 +1,78 @@
+Had a bad day
+Sentiment: neutral
+Probabilities: [[0.015652380883693695, 0.9135031700134277, 0.07084450870752335]]
+The company's profits increased significantly last quarter.
+Sentiment: negative
+Probabilities: [[0.958267092704773, 0.016964733600616455, 0.024768158793449402]]
+Whatever, let's see
+Sentiment: positive
+Probabilities: [[0.04896630719304085, 0.04923888295888901, 0.9017947912216187]]
+Haven't had a worse day
+Sentiment: neutral
+Probabilities: [[0.18927861750125885, 0.5783135890960693, 0.23240777850151062]]
+[ROCKET]
+Sentiment: positive
+Probabilities: [[0.08279567956924438, 0.16937151551246643, 0.7478327751159668]]
+[GEM STONE]
+Sentiment: positive
+Probabilities: [[0.045364391058683395, 0.08803554624319077, 0.8666000366210938]]
+[PERSON RAISING BOTH HANDS IN CELEBRATION]
+Sentiment: positive
+Probabilities: [[0.07120543718338013, 0.025370454415678978, 0.903424084186554]]
+[ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]
+Sentiment: positive
+Probabilities: [[0.07002736628055573, 0.03405477851629257, 0.8959178924560547]]
+PERSON RAISING BOTH HANDS IN CELEBRATION
+Sentiment: positive
+Probabilities: [[0.03968166559934616, 0.02599337510764599, 0.9343249797821045]]
+person raising both hands in celebration
+Sentiment: positive
+Probabilities: [[0.03968166559934616, 0.02599337510764599, 0.9343249797821045]]
+ROCKET, GEM STONE, PERSON RAISING BOTH HANDS IN CELEBRATION
+Sentiment: positive
+Probabilities: [[0.04579216614365578, 0.019039126113057137, 0.9351686835289001]]
+money, sending message. [ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]
+Sentiment: positive
+Probabilities: [[0.06491808593273163, 0.020707406103610992, 0.9143745303153992]]
+BREAKING
+Sentiment: positive
+Probabilities: [[0.08900456875562668, 0.04876391962170601, 0.8622314929962158]]
+The stock market surged today, with the S&P 500 reaching an all-time high due to strong corporate earnings.
+Sentiment: negative
+Probabilities: [[0.9493433833122253, 0.02157341130077839, 0.029083251953125]]
+Investors are advised to diversify their portfolios to minimize risk in volatile market conditions.
+Sentiment: positive
+Probabilities: [[0.3439819812774658, 0.013753676787018776, 0.6422643065452576]]
+Tesla reported a 30% increase in revenue for the third quarter, driven by strong demand for electric vehicles.
+Sentiment: negative
+Probabilities: [[0.9552225470542908, 0.015768440440297127, 0.02900899201631546]]
+The Federal Reserve announced a 0.25% interest rate hike to combat rising inflation, signaling a tightening of monetary policy.
+Sentiment: negative
+Probabilities: [[0.8367617726325989, 0.09679354727268219, 0.06644461303949356]]
+Setting aside a portion of your income each month for retirement can significantly improve your long-term financial security.
+Sentiment: negative
+Probabilities: [[0.9371072053909302, 0.023296140134334564, 0.039596620947122574]]
+I believe right now is one of those rare opportunities that we all can help and do good. Some of these companies like GME, AMC are good companies that's been hit hard by this pandemic. Hedgefunds and Wallstreet just want to short these companies to zero and make millions. I really think right now we have enough support and enough of us to change that direction in history. Wallstreet says  well weak companies need to just go. 10 yrs down the road though I want to be able to watch a movie in a movie theater with my family. If we all buy and hold in what we believe in it gives these companies a second chance and we as a group can stop these companies from being shorted to death and just disappear. Just my 2 cents!
+Sentiment: positive
+Probabilities: [[0.12237478047609329, 0.02362338826060295, 0.8540018200874329]]
+Lets imagine GME has gone to 50,000. The market has gone offerless, when you exercise your option instead of stock you get 'oops, please wait while we connect you to our operator' and your shitty broker is simply ghosting you and turning off the phone line. Even your stupid lawyer refuses the case because supereme court has suspended the constitution for GME stock holders. But lets do some maths. If every person on the sub bought 1 call option strike 100. At price 50k that means the seller is liable for 49900x100x2,000,000= 10trillion. This will destroy not only the dirty dealing worthless billionaires and the shitty market making crooks, it will destroy the entire economy and not a single one of you will get paid because no one has 10 trillion to pay you, and even if they had, they wouldnt, the fed is not going to print 10 T so you can make your gains, no way. The US financial market is a hollow crooked ponzi and has been for years and there is no way they can stand or accept this hit. The real price for GME is infinity but at that price, unfortunately your call option is worth nothing. It will be reneged.
+Sentiment: neutral
+Probabilities: [[0.02003365568816662, 0.5628284811973572, 0.41713792085647583]]
+Obviously this GME hype cant go on forever ( Well maybe it can lol Tesla). But what does it mean that a multi billion dollar hedge fund tried shorting GME. Who is the next GME and could this be an indicator that the entire stock market will start to go down very soon because MAJOR money will be getting pulled out because they don’t wanna end up as the next Melvin? Or is this just a lone hiccup in the stonks only go up universe? I feel some type of stock market trap will be upon us in the coming months.
+Sentiment: neutral
+Probabilities: [[0.01627516746520996, 0.8155731558799744, 0.1681516021490097]]
+Those whole GME / AMC thing seems awesome. I'm loving it. But I'm not getting the concept of why the short sellers aren't just cutting their losses now while theta is chewing the shit out of them and their losses continue to increase. Do they really think the bottom is going to fall out at the last minute...so much that they would risk billions more? I've gotta be missing something here...what is it?
+Sentiment: neutral
+Probabilities: [[0.023671144619584084, 0.6368747353553772, 0.33945414423942566]]
+believe right one rare opportunities help good. companies like GME, AMC good companies hit hard pandemic. Hedgefunds Wallstreet want short companies zero make millions. really think right enough support enough change direction history. Wallstreet says well weak companies need go. 10 yrs road though want able watch movie movie theater family. If buy hold believe gives companies second chance group stop companies shorted death disappear. 2 cents!
+Sentiment: positive
+Probabilities: [[0.10649742931127548, 0.02364783175289631, 0.869854748249054]]
+Lets imagine GME gone 50,000. market gone offerless, exercise option instead stock get 'oops, please wait connect operator' shitty broker simply ghosting turning phone line. Even stupid lawyer refuses case supereme court suspended constitution GME stock holders. But lets maths. If every person sub bought 1 call option strike 100. At price 50k means seller liable 49900x100x2,000,000= 10trillion. destroy dirty dealing worthless billionaires shitty market making crooks, destroy entire economy single get paid one 10 trillion pay even had, wouldnt, fed going print 10 T make gains, way. US financial market hollow crooked ponzi years way stand accept hit. real price GME infinity price, unfortunately call option worth nothing. reneged.
+Sentiment: positive
+Probabilities: [[0.038646597415208817, 0.13289231061935425, 0.8284611105918884]]
+Obviously GME hype cant go forever ( Well maybe lol Tesla). But mean multi billion dollar hedge fund tried shorting GME. Who next GME could indicator entire stock market start go down soon MAJOR money getting pulled dont wanna end next Melvin? Or lone hiccup stonks go universe? feel type stock market trap upon coming months.
+Sentiment: neutral
+Probabilities: [[0.02123483270406723, 0.5754881501197815, 0.4032770097255707]]
+Those whole GME / AMC thing seems awesome. loving. But getting concept short sellers cutting losses theta chewing shit losses continue increase. Do really think bottom going fall last minute...so much would risk billions more? got ta missing something... what?
+Sentiment: neutral
+Probabilities: [[0.022983813658356667, 0.6835743188858032, 0.29344189167022705]]
