@@ -6,25 +6,43 @@ tokenizer = BertTokenizer.from_pretrained('yiyanghkust/finbert-tone')
 
 nlp = pipeline("sentiment-analysis", model=finbert, tokenizer=tokenizer)
 
-sentences = ["[ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]",
-             "PERSON RAISING BOTH HANDS IN CELEBRATION",
-             "person raising both hands in celebration",
-             "ROCKET, GEM STONE, PERSON RAISING BOTH HANDS IN CELEBRATION",
-             "Setting aside a portion of your income each month for retirement can significantly improve your long-term financial security.",
-             "money, sending message. [ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]",
-             "Math Professor Scott Steiner says numbers spell DISASTER Gamestop shorts",
-             "Exit system CEO NASDAQ pushed halt trading to give investors chance recalibrate positions. [ SEC investigating, brokers disallowing buying calls. institutions flat admitting change rules bail rich happens us, get well shucks known investing risky! tried cutting avocados coffee, maybe Uber side? may collectively driven enough sentiment wall street make big players go long GME us (we money move stock much alone). didn't hurt wall street whole, funds went others went profited shorts us. media wants pin blame us. crystal clear rigged game now. time build new exchanges can't arbitrarily change rules us. Cr\*\*o version these, maybe repurposed trade stock without government intervention. don't know exactly look like yet, broad next steps see - 1. exit current financial system 2. build new one.",
-             "NEW SEC FILING GME! SOMEONE LESS RETARDED PLEASE INTERPRET?",
-             "distract GME, thought AMC brothers aware",
-             "BREAKING",
-             "SHORT STOCK EXPIRATION DATE Hedgefund whales spreading disinfo saying Friday make-or-break $GME. Call options expiring ITM Friday drive price levels maintained, may trigger short squeeze. may Friday, could next week see real squeeze. PANIC SQUEEZE HAPPEN FRIDAY. guaranteed to. thing guaranteed mathematically shorts cover point future. trying get enough people hooked false expectation Friday if/when happen, enough sell panic/despair. PERSON. LIKE STOCK",
-             "MOMENT Life fair. mother always told would complain arbitrary treatment. would play rules someone else would ignore them. would win would appeal first authority explanation. Are going let get away this? Life fair. No, not. game game. Always. moment, fascade cracks further. first breach made know, perhaps Socrates, today see thousands. Millions. laughing, luxuries falling disgusting diseased mouths cackled. unmistakable stench derision carried breath. told anyone outside elite class fools even trying. told us naive. needed networks successful. needed polish. needed expertise. needed THEM. game game. Always. longer laughing. odious oeuvre still wafts air. rot, hate, condescention, remains, noxious air betrays new addition. Something together disconcerting. betrays, fear. afraid. be. need inherited resources masked acumen. new day dawns. day make ever slight step towards fear most. even field. Life becoming ever slighty fair. AND. THEY. ARE. SCARED. look us see roughness. look see softness. correct estimation. game game. Always. Fuck street. Fuck street. righteous. blessed Phoebe. started echo time eons come. Mount ride fury thousand rockets universal filament. May wind always back sun upon face. may wings destiny carry aloft, dance stars. GME@everything BB@everything [ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET]",
-             "Currently Holding AMC NOK - retarded think move GME today?",
-             "nothing say BRUH speechless MOON [ROCKET][ROCKET][ROCKET][GEM STONE][GEM STONE][WAVING HAND SIGN][WAVING HAND SIGN]",
-             "need keep movement going, make history! believe right one rare opportunities help good. companies like GME, AMC good companies that's hit hard pandemic. Hedgefunds Wallstreet want short companies zero make millions. really think right enough support enough us change direction history. Wallstreet says well weak companies need go. 10 yrs road though want able watch movie movie theater family. buy hold believe gives companies second chance group stop companies shorted death disappear. 2 cents!",
-             "GME Premarket [MAPLE LEAF] Musk approved [VIDEO GAME][OCTAGONAL SIGN][GEM STONE][RAISED HAND]",
-             "done GME - $AG $SLV, gentleman's short squeeze, driven macro fundamentals guys champs. GME... would thought bunch crazy retards could reach front page New York Times. done GME, time punish big banks suppressing price silver since Bear Stearns / JPM merge. fucking Bloomberg: [ There's excellent explanation scheme [ think GME squeezed hard? Look happened silver half year ago July: &#x200B; That's one banks getting squeezed silver, cover shorts... that's rich boomers freaked financial instability finally started calling Comex bullshit, taking physically delivery silver... have. imagine 4 million degenerates buying $SLV, forcing trust take delivery physical silver Comex. GME, who's fair price maybe around $5 share. FAIR price silver based historical gold/silver ratio almost surely $50/ounce. short squeeze fantastic success even take silver fair market value. there's $AG. silver starts moving, $AG going go fucking moon. 1) leverage play silver, 2) got SHORTS SQUEEZED OUT. least 23% short float last count: [ **TL;DR: thing gets going, shares calls $SLV $AG will** ***rocket.*** Edit: **[ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET][ROCKET]**"
-            ]
+sentences = [
+    # Casual language
+    "Had a bad day",
+    "The company's profits increased significantly last quarter.",
+    "Whatever, let's see",
+    "Haven't had a worse day",
+
+    # Emojis to text
+    "[ROCKET]",
+    "[GEM STONE]",
+    "[PERSON RAISING BOTH HANDS IN CELEBRATION]",
+    "[ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]",
+    "PERSON RAISING BOTH HANDS IN CELEBRATION",
+    "person raising both hands in celebration",
+    "ROCKET, GEM STONE, PERSON RAISING BOTH HANDS IN CELEBRATION",
+    "money, sending message. [ROCKET][GEM STONE][PERSON RAISING BOTH HANDS IN CELEBRATION]",
+    "BREAKING",
+
+    # Standard stock market sentences
+    "The stock market surged today, with the S&P 500 reaching an all-time high due to strong corporate earnings.",
+    "Investors are advised to diversify their portfolios to minimize risk in volatile market conditions.",
+    "Tesla reported a 30% increase in revenue for the third quarter, driven by strong demand for electric vehicles.",
+    "The Federal Reserve announced a 0.25% interest rate hike to combat rising inflation, signaling a tightening of monetary policy.",
+    "Setting aside a portion of your income each month for retirement can significantly improve your long-term financial security.",
+
+    # Reddit examples
+    "I believe right now is one of those rare opportunities that we all can help and do good. Some of these companies like GME, AMC are good companies that's been hit hard by this pandemic. Hedgefunds and Wallstreet just want to short these companies to zero and make millions. I really think right now we have enough support and enough of us to change that direction in history. Wallstreet says  well weak companies need to just go. 10 yrs down the road though I want to be able to watch a movie in a movie theater with my family. If we all buy and hold in what we believe in it gives these companies a second chance and we as a group can stop these companies from being shorted to death and just disappear. Just my 2 cents!",
+    "Lets imagine GME has gone to 50,000. The market has gone offerless, when you exercise your option instead of stock you get 'oops, please wait while we connect you to our operator' and your shitty broker is simply ghosting you and turning off the phone line. Even your stupid lawyer refuses the case because supereme court has suspended the constitution for GME stock holders. But lets do some maths. If every person on the sub bought 1 call option strike 100. At price 50k that means the seller is liable for 49900x100x2,000,000= 10trillion. This will destroy not only the dirty dealing worthless billionaires and the shitty market making crooks, it will destroy the entire economy and not a single one of you will get paid because no one has 10 trillion to pay you, and even if they had, they wouldnt, the fed is not going to print 10 T so you can make your gains, no way. The US financial market is a hollow crooked ponzi and has been for years and there is no way they can stand or accept this hit. The real price for GME is infinity but at that price, unfortunately your call option is worth nothing. It will be reneged.",
+    "Obviously this GME hype cant go on forever ( Well maybe it can lol Tesla). But what does it mean that a multi billion dollar hedge fund tried shorting GME. Who is the next GME and could this be an indicator that the entire stock market will start to go down very soon because MAJOR money will be getting pulled out because they don’t wanna end up as the next Melvin? Or is this just a lone hiccup in the stonks only go up universe? I feel some type of stock market trap will be upon us in the coming months.",
+    "Those whole GME / AMC thing seems awesome. I'm loving it. But I'm not getting the concept of why the short sellers aren't just cutting their losses now while theta is chewing the shit out of them and their losses continue to increase. Do they really think the bottom is going to fall out at the last minute...so much that they would risk billions more? I've gotta be missing something here...what is it?",
+    
+    # Reddit without stopwords
+    "believe right one rare opportunities help good. companies like GME, AMC good companies hit hard pandemic. Hedgefunds Wallstreet want short companies zero make millions. really think right enough support enough change direction history. Wallstreet says well weak companies need go. 10 yrs road though want able watch movie movie theater family. If buy hold believe gives companies second chance group stop companies shorted death disappear. 2 cents!",
+    "Lets imagine GME gone 50,000. market gone offerless, exercise option instead stock get 'oops, please wait connect operator' shitty broker simply ghosting turning phone line. Even stupid lawyer refuses case supereme court suspended constitution GME stock holders. But lets maths. If every person sub bought 1 call option strike 100. At price 50k means seller liable 49900x100x2,000,000= 10trillion. destroy dirty dealing worthless billionaires shitty market making crooks, destroy entire economy single get paid one 10 trillion pay even had, wouldnt, fed going print 10 T make gains, way. US financial market hollow crooked ponzi years way stand accept hit. real price GME infinity price, unfortunately call option worth nothing. reneged.",
+    "Obviously GME hype cant go forever ( Well maybe lol Tesla). But mean multi billion dollar hedge fund tried shorting GME. Who next GME could indicator entire stock market start go down soon MAJOR money getting pulled dont wanna end next Melvin? Or lone hiccup stonks go universe? feel type stock market trap upon coming months.",
+    "Those whole GME / AMC thing seems awesome. loving. But getting concept short sellers cutting losses theta chewing shit losses continue increase. Do really think bottom going fall last minute...so much would risk billions more? got ta missing something... what?"
+]
 
 # results = nlp(sentences)
 # print(results)  #LABEL_0: neutral; LABEL_1: positive; LABEL_2: negative
