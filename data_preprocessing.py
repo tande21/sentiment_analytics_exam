@@ -52,6 +52,13 @@ TODO:
         - - Create mapping on Data -> To link -> Output: Only tickers left
         - - Create connection between NER To Data
         - - Create connection between Nerd -> Search function -> Output dictionary: With Tickers key: Post: Values
+        - - MAPPING TO -> SENTIMENT
+
+
+    # SUMMARIEZE DATA ()
+        - - START and END DATE 
+        - - Number of ROWS
+        - - 
                 
 
 
@@ -127,10 +134,14 @@ class DataHandler:
 
         self.start_date = None
         self.end_date = None
-        self.output_df_to_csv('./DATA/', 'reddit_data')
+        # self.output_df_to_csv('./DATA/', 'reddit_data')
         
         # Models
         self.ner_data = None
+
+
+        # CSV SAVINGS LOCALLY
+        self.output_df_to_csv('./DATA/', 'reddit_data')
 
     def _load_reddit_data(self):
         file_path = './DATA/reddit_wsb.csv'
@@ -303,14 +314,11 @@ class DataHandler:
         """
 
 
-
-        #TODO: Add correct model to MODEL folder
         df_NER = self.extractNERs()
         self.ner_data = df_NER
         print(df_NER['entities'])
-        self.output_df_to_csv('./DATA/', 'ner_data')
 
-        return df
+        return df_NER
     
 
     # Source: https://stackoverflow.com/questions/43797500/python-replace-unicode-emojis-with-ascii-characters
@@ -341,7 +349,12 @@ class DataHandler:
         
         # df["entities"] = df["combined_text"].head().apply(self.extract_entities)
         # df.loc[:49, "entities"] = df["combined_text_stop"].iloc[:50].apply(self.extract_entities)
-        df.loc[:199, "entities"] = df["combined_text_stop"].iloc[:200].apply(self.extract_entities)
+        # df.loc[:199, "entities"] = df["combined_text_stop"].iloc[:200].apply(self.extract_entities)
+
+        #### ENTIRE DATASET ####
+        df["entities"] = df["combined_text_stop"].apply(self.extract_entities)
+
+
 
         return df
 
