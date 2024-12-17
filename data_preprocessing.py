@@ -3,19 +3,18 @@ file name: data_preprocessing.py
 purpose: This file will handle all the data
 
 TODO: 
-    - rename all the columns in stock
-    - remove time from post 
-    - Load the annotated data
+    - + rename all the columns in stock
+    - + remove time from post 
+    - + Load the annotated data
 
-    # Analysis functions
+    # Analysis + Visual functions
     - + Common words 2 time: Before and after
     - - Plot score histogram
     - + Plot histogram of length post
     - + 3 plot for common words before emojis.
     ? ? (lowercase i visualization?)
-
-    - plot number of posts each day.
-    - Plot sp500 index in time period
+    - - plot number of posts each day.
+    - - Plot sp500 index in time period
 
     # Processing steps
     - + Drop those columns that are not needed
@@ -25,18 +24,46 @@ TODO:
     - + remove empty rows (for combined_text) 23 empty rows 
     - + get emojis to useful text 
     - - Extract entities with FTNER model
+    - + Create a new combined_text_without_stopwords
+    - + Get sp500 data into the class
 
-    - - Add titles multiple times
-    - + Rette dates i reddit posts (remove timestamp)
-    - + Create a function, that find first and last dates
-    - - Maybe look after if they are talking about shorting? 
+    - + Correcting dates (removing timestamps)
+    - + Create a function, that find first and last dates in reddit post
     - + Get the sp500 data 
+    - + Integrate sp500 data into the class
+        
+        ## Maybes - if time
+            - - ??Maybe look after if they are talking about shorting? 
+            - - ??Add titles multiple times ?? To see a bigger effect
 
-    - - TROUBLE: inconsistent path names
+    # NER MODEL
+    - - Add Entities column to dataframe.
+            - https://huggingface.co/dslim/distilbert-NER
+            - Make a small amount of output too see, if the NER Functions work.
+     
+    # Mapping steps 
+    - + Implement Record Linking
 
-- In common words (visualization) - make it do so i takes combined_text
+    # Create visualizaton on results
+        - - NER-Model: See how it improve on accuracy
 
-    # DATA
+
+    # THE CONNECTION OF THE PIPELINE
+        - - Create mapping on Data -> To link -> Output: Only tickers left
+        - - Create connection between NER To Data
+        - - Create connection between Nerd -> Search function -> Output dictionary: With Tickers key: Post: Values
+                
+
+
+    # TROUBLES
+    - inconsistent path names
+
+
+    # DEBUGGER
+        - Create a debugger function to find inconsistensy
+       
+
+    # DATA USED 
         - REDDIT post
         - US stock tickers (Only the US): https://www.kaggle.com/datasets/marketahead/all-us-stocks-tickers-company-info-logos
         - TIMESERIES From yahoo
@@ -44,11 +71,10 @@ TODO:
 
 TODO:
 - Mapping function from company name to ticker:  
-- 
+
 
 
 """
-
 import kagglehub
 import pandas as pd
 import os
@@ -60,20 +86,17 @@ from nltk.corpus import stopwords
 import re
 import unicodedata
 from unidecode import unidecode
-
 from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
-
-
 
 # Our files
 import visualization
 
 class DataHandler:
     """
-    DataHandler is a class to handle data preprocessing,
-    for all the data in the project: 
-        - reddit walstreet post 
-        - timeseries for stocks
+    DataHandler is a class to handle preprocessing of data.
+        - Reddit walstreet post 
+        - Timeseries for stocks
+        - US Stock tickers:  https://www.kaggle.com/datasets/marketahead/all-us-stocks-ticker 
 
     Preconditions:
         _load_timeseries_data(...) can only use locally saved timeseries
@@ -84,8 +107,13 @@ class DataHandler:
     """
 
     def __init__(self, class_name):
+        # PATHS 
+        self.ner_model_path = './DATA/MODEL/NER_MODEL/'
+
+
+        # 
         self.class_name = class_name
-        self.stock_list = ['TSLA', 'MSFT']
+        self.stock_list = ['TSLA', 'MSFT'] # Figure out what stock to use
         self.START = '2020-01-01'
         self.END = '2022-01-01'
         
@@ -95,14 +123,14 @@ class DataHandler:
         self.reddit_data = self._preprocess_data()
         self.reddit_data.head().to_csv('new_output.csv', index=False)
         self.timeseries_data = self._load_timeseries_data(self.stock_list) 
-        # self.sp500_data = self._load_sp500() 
-        # print(self.sp500_data.head())
+        self.sp500_data =  None #self._load_sp500() 
 
         self.start_date = None
         self.end_date = None
-        self.output_df_to_csv('reddit_data')
-
-        self.model_path = 'DATA\MODEL'
+        self.output_df_to_csv('./DATA/', 'reddit_data')
+        
+        # Models
+        self.ner_data = None
 
     def _load_reddit_data(self):
         file_path = './DATA/reddit_wsb.csv'
@@ -116,8 +144,8 @@ class DataHandler:
         historical_data = sp500.history(start=START, end=END)
         historical_data.to_csv('./DATA/TIMESERIES/sp500.csv')
 
-    def _load_sp500(self):
-        self._save_sp500(self.start_date, self.end_date)
+    def _load_sp500(self, start_date, end_date):
+        self._save_sp500(start_date, end_date)
         file_path = './DATA/TIMESERIES/sp500.csv'
         df = pd.read_csv(file_path)
         # df['Date'] = pd.to_datetime(df['Date']).dt.date  # Convert 'Date' to date-only format
@@ -128,6 +156,7 @@ class DataHandler:
         existing_columns_to_drop = [col for col in columns_to_drop if col in df.columns]
         
         df = df.drop(existing_columns_to_drop, axis=1)
+        self.sp500_data = df
         return df
 
 
@@ -186,19 +215,16 @@ class DataHandler:
 
     def find_min_max_date(self, df):
         self.start_date = df['timestamp'].min()
-        self.last_date = df['timestamp'].max()
+        self.end_date = df['timestamp'].max()
 
-
-    def remove_stop_words_and_links(self):
-        df = self.reddit_data
+    def remove_stop_words_and_links(self, df, column_name):
         stop_words = set(stopwords.words('english')) 
         additional_stopwords = {'www', 'http', 'https', 'com'}
         stop_words.update(additional_stopwords)
+        url_pattern = re.compile(r'https?://\S+|www\.\S+')
     
         filtered_text = []
-        url_pattern = re.compile(r'https?://\S+|www\.\S+')  # Regex to match URLs
-    
-        for text in df['combined_text']:
+        for text in df[column_name]:
             # Remove URLs
             text = url_pattern.sub('', text)
             words = text.split()
@@ -206,52 +232,83 @@ class DataHandler:
             filtered_words = [word for word in words if word.lower() not in stop_words]
             filtered_text.append(" ".join(filtered_words))
         
-        df['combined_text'] = filtered_text
+        df[column_name] = filtered_text
         return df
-    
 
     def _preprocess_data(self):
         df = self.reddit_data
         title0 = 'no_stopwords'
         title1 = 'stopwords'
         title2 = 'no_stopwords_with_emojis'
-
         
-        
-        # Combine title and body
+        # Combine title and body into a single column: combined_text
         df = self.combine_title_and_body()
         
-        # Visualize before removing stop words
+        # Rename the column to combined_text_stop since it currently contains stopwords
+        df.rename(columns={'combined_text': 'combined_text_stop'}, inplace=True)
+        
+        # Create combined_text from combined_text_stop (this will become the no-stopwords column)
+        df['combined_text'] = df['combined_text_stop'].copy()
+        
+        # Visualize with stopwords (using combined_text_stop)
         self.visualize_common_words(df, title1)
-
-        df = self.remove_stop_words_and_links()
         
-        # Visualize before emojis to text
+        # Remove stopwords and links from the 'combined_text' column only
+        df = self.remove_stop_words_and_links(df, 'combined_text')
+        
+        # Visualize after removing stopwords (combined_text now has no stopwords)
         self.visualize_common_words(df, title0)
-        
-        # Remove emojis
+    
+        # Remove emojis from both columns
+        df['combined_text_stop'] = df['combined_text_stop'].apply(self.deEmojify)
         df['combined_text'] = df['combined_text'].apply(self.deEmojify)
+    
+        # Strip whitespace
+        df['combined_text_stop'] = df['combined_text_stop'].str.strip()
+        df['combined_text'] = df['combined_text'].str.strip()
         
-        # Drop rows where 'combined_text' is NaN or empty after stripping whitespace
-        df['combined_text'] = df['combined_text'].str.strip()  # Strip leading/trailing spaces
-        df = df[df['combined_text'].notna() & (df['combined_text'] != '')].reset_index(drop=True)
+        # Drop rows where either is empty or NaN
+        df = df[
+            df['combined_text_stop'].notna() & (df['combined_text_stop'] != '') &
+            df['combined_text'].notna() & (df['combined_text'] != '')
+        ].reset_index(drop=True)
+        
+        # Convert timestamp to date
         df['timestamp'] = pd.to_datetime(df['timestamp']).dt.date
-        # print(df['timestamp'].head())
+        
+        # Find min and max date
         self.find_min_max_date(df)
-    
-         
+        
+        # Visualize after full preprocessing
+        self.visualize_common_words(df, title2)
+        
+        #REMOVE COMMMENT LATER :)
+
+        """
+        - def(...) -> filter and remove unecessary entitites
+                - :KUN ORGS
+        - def(...) -> Create a function: that have ORG key, and all orgs inside values
 
         
-        ##### Check for any remaining empty rows #####
-        # empty_count = df['combined_text'].isna().sum() + (df['combined_text'] == '').sum()
-        # print(f"Number of empty rows: {empty_count}")
-    
-        # Visualize after preprocessing
-        self.visualize_common_words(df, title2)
+        - Filter NER data
+            - Only ORGS
+            - 
+            - Then map to .csv 
 
-        #REMOVE COMMMENT LATER :)
+
+
+
+
+
+        """
+
+
+
         #TODO: Add correct model to MODEL folder
-        #df = self.extractNERs()
+        df_NER = self.extractNERs()
+        self.ner_data = df_NER
+        print(df_NER['entities'])
+        self.output_df_to_csv('./DATA/', 'ner_data')
 
         return df
     
@@ -277,10 +334,15 @@ class DataHandler:
     
     def extractNERs(self):
         df = self.reddit_data
-        tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        model = AutoModelForTokenClassification.from_pretrained(self.model_path)
+        path = self.ner_model_path
+        tokenizer = AutoTokenizer.from_pretrained(path)
+        model = AutoModelForTokenClassification.from_pretrained(path)
         self.ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
-        df["entities"] = df["combined_text"].apply(self.extract_entities)
+        
+        # df["entities"] = df["combined_text"].head().apply(self.extract_entities)
+        # df.loc[:49, "entities"] = df["combined_text_stop"].iloc[:50].apply(self.extract_entities)
+        df.loc[:199, "entities"] = df["combined_text_stop"].iloc[:200].apply(self.extract_entities)
+
         return df
 
     def extract_entities(self, text):
@@ -315,6 +377,20 @@ class DataHandler:
     def visualize_score_count(self):
         visualization.score_count_distribution(self.reddit_data)
 
+
+    def summarize_data(self):
+        return None
+
+    
+    def debugger_helper(self):
+        """
+        Check for: 
+            - Empty combined_text are removed
+            - That stopwords are remove from data
+        """
+        return None
+
+
     """
     Getter functions
     """
@@ -341,27 +417,22 @@ class DataHandler:
             print(f"Ticker '{ticker}' not found in the data.")
             return None
 
-    def output_df_to_csv(self, data_name):
-        file_path = './DATA/'  # Directory where the CSV will be saved
-        os.makedirs(file_path, exist_ok=True)  # Ensure the directory exists
+    def output_df_to_csv(self, path, data_name):
+        os.makedirs(path, exist_ok=True)  # Ensure the directory exists
         
         # Use getattr to dynamically access the attribute by name
         data_frame = getattr(self, data_name, None)
         if isinstance(data_frame, pd.DataFrame):
             # Add 'processed_' prefix to the filename
             file_name = f"processed_{data_name}.csv"
-            full_file_path = os.path.join(file_path, file_name)
+            full_file_path = os.path.join(path, file_name)
             
             # Save to CSV
             data_frame.to_csv(full_file_path, index=False)
             print(f"DataFrame '{data_name}' saved to: {os.path.abspath(full_file_path)}")
         else:
             print(f"'{data_name}' is not a valid DataFrame attribute.")
-        
-
-    def debugger_helper(self):
-        return None
-
+                
           
 def loadDataHandler(class_name):
     path = './DATA/'

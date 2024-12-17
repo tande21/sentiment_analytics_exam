@@ -3,13 +3,13 @@ def main():
     # Specify the model checkpoint
     # "dslim/distilbert-NER"
     # "ProsusAI/finbert"
-    model_checkpoint = "dslim/distilbert-NER"
+    model_checkpoint = "ProsusAI/finbert"
     training_args = {
-            "output_dir": "distilbertfinNER",
+            "output_dir": "finbertNER",
             "learning_rate": 2e-5,
             "per_device_train_batch_size": 16,
             "per_device_eval_batch_size": 16,
-            "num_train_epochs": 5,
+            "num_train_epochs": 10,
             "weight_decay": 0.01,
             "eval_strategy": "epoch",
             "save_strategy": "epoch",
