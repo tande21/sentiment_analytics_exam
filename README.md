@@ -6,6 +6,7 @@ In this project we are aiming to creating a machine learning pipeline. It is mea
 - **DATA/PLOTS** - Contains plots and visualizations of data processing used in the report
 - **DATA/TIMESERIES** - Contains timeseries data for specific stocks
 - **Sentiment analysis** - Contins the files for testing each sentiment model. The underlying data it is trained on can also be found in DATA -> stockIt_posts_dataset and is hard coded in the files
+- **sentiment analysis/Results** - This folder is used to to test multiple sentiment classifiers, to see what we should use. 
 
 ## Data
 - **Final dataframe product** - This is the final dataframe product after dataprocessing. The file DATA/COMPLETED_DF_SENTIMENT_PROCESSED_CSV. The csv file can be found inside COMPLETE_DF_SENTIMENT.zip. This is the product which we had "hoped" to work a bit more with. But given the time, only basic evaluation was executed. 
