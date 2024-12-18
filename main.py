@@ -6,7 +6,7 @@
     - Computational cheap
 - [x] ##Subtokens 
 
-- [] Then we have to call unique again. Since some rows, have
+- [x] Then we have to call unique again. Since some rows, have
         - for example gamestop and GME. So we will get,
         gme 2 times.
         - Men vi gør det ikke paa: ticker not found. 
@@ -23,6 +23,9 @@
     - Find how many unique values we have in the dict. 
     - Find how many rows contains only ['ticker not found'] 
 
+## MAPPPING 
+    - [] Make a strict threshold
+
 ## DATAFRAME 
 - NEW DATAFRAME APPEND: Processed_Entities
 - Output to csv
@@ -38,11 +41,10 @@
 ## Create a HELPER.py file 
 
 
-
-
 ### IDEA 
 - THe more positive or negative - does it increase frequency? 
 """
+
 import warnings
 warnings.simplefilter('ignore')
 import time
@@ -73,19 +75,6 @@ DATAHANDLER = data_preprocessing.loadDataHandler(CLASS_NAME)
 REDDIT_DATA = DATAHANDLER.reddit_data
 PROCESSED_NER_DATA = load_data('./DATA/processed_reddit_data_ALL_DATA.csv') # NU SLUTTER NER PIPELINE
 COMPLETED_DF = None
-# FRA NER OUTPUT TIL MAPPING
-### UPDATE COMPLETED DF 
-
-
-### ADD SENTIMENT COLUMNS
-
-## DO
-
-
-
-
-# Initialize SemanticSearch
-# semantic_search = SemanticSearch(COMPANIES_DF, column_name='Company Name')
 
 def save_dataframe_to_csv(file_path, dataframe):
     try:
@@ -197,89 +186,30 @@ if __name__ == "__main__":
     # Append 'Processed_entities' to the Reddit DataFrame
     COMPLETED_DF = append_dict_to_dataframe(REDDIT_DATA, updated_dict, 'Processed_entities')
 
-        #################
-        ### MAPPING #####
-        #################
+        ####################
+        ##### MAPPING ######
+        ####################
     print('Mapping entities')
 
-  
-    # Create the class. take the output from that class
+    # CREATE THE SETUP FOR MAPPING 
     RECORD_LINKER_CLASS = RecordLinking(COMPANIES_DF, updated_dict)
-    # updated_dict = vor
-    
-
-
-
-
-
-
-
-
-    # Ensure unique values
+    updated_dict = RECORD_LINKER_CLASS.entity_dict_output # The new dictionary: ['GME', 'GAMESTOP'] -> ['GME', 'GME']
     updated_dict = ensure_unique_values(updated_dict)
-
-    # Append 'Processed_entities_result' to the Reddit DataFrame
+    print_dict(updated_dict, 500)
     COMPLETED_DF = append_dict_to_dataframe(REDDIT_DATA, updated_dict, 'Processed_entities_result')
+
 
     print('###########################')
     print('########## AFTER ##########')
     print('###########################')
 
     count_value_occurrences(updated_dict, 'gme')
-    save_dataframe_to_csv('./DATA/COMPLETED_DF.csv', COMPLETED_DF)
 
+    
+
+    ##### SAVING THE COMPLETED DATAFRAME #####
+    save_dataframe_to_csv('./DATA/COMPLETED_DF.csv', COMPLETED_DF)
     end_time = time.time()
     print(f"Processing completed in {end_time - start_time:.2f} seconds.")
 
 
-    #if __name__ == "__main__":
-    #    start_time = time.time()
-    #    class_name = 'DataHandler_class'
-    #
-    #    ####################
-    #    ### NER PIPELINE ###
-    #    ####################
-    #
-    #    df = PROCESSED_NER_DATA 
-    #    df['entities'] = df['entities'].apply(ast.literal_eval)
-    #
-    #    ##### NER DATA PROCESSED #####
-    #    result_dict = combine_org_entities_with_ids(df, 'entities')
-    #
-    #    print('############################')
-    #    print('########## BEFORE ##########')
-    #    print('############################')
-    #
-    #    count_value_occurrences(result_dict, 'gme')
-    #    updated_dict = ensure_unique_values(result_dict)
-    #    updated_dict = remove_values_with_prefix(updated_dict)
-    #    COMPLETED_DF = append_dict_to_dataframe(REDDIT_DATA, updated_dict, 'Processed_entities')
-    #
-    #    ###############################
-    #    ### NEW CLASS FOR MAPPING #####
-    #    ###############################
-    #    # Replace the old mapping function with SemanticSearch
-    #
-    #    # Process entities to tickers
-    #    print('Mapping entities to tickers using SemanticSearch...')
-    #    companies_df = COMPANIES_DF  # Ensure this DataFrame contains 'tickers' and company names.
-    #    updated_dict = process_entities_to_tickers(df, companies_df, column_name='entities')
-    #
-    #    print('#############################')
-    #    print('######### MAPPED ###########')
-    #    print('#############################')
-    #    print(updated_dict)
-    #
-    #    updated_dict = ensure_unique_values(updated_dict)
-    #    COMPLETED_DF = append_dict_to_dataframe(REDDIT_DATA, updated_dict, 'Processed_entities_result')
-    #    
-    #    print('###########################')
-    #    print('########## AFTER ##########')
-    #    print('###########################')
-    #
-    #    count_value_occurrences(updated_dict, 'gme')
-    #    save_dataframe_to_csv('./DATA/COMPLETED_DF.csv', COMPLETED_DF)
-    #
-    #    end_time = time.time()
-    #    print(f"Processing completed in {end_time - start_time:.2f} seconds.")
-    #
