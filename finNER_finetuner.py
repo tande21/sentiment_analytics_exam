@@ -13,7 +13,12 @@ import numpy as np
 import torch
 import os
 
+# \cite(https://colab.research.google.com/drive/1o0jjpWMgG1cX7eAYsV7hf2ptrOeS1fqS?usp=sharing#scrollTo=jWYE39167OAC)
+
 class FiNER_finetune():
+    """
+    Takes a model and finetunes it to the FiNER-ORD-BIO with given training args
+    """
     def __init__(self, model_checkpoint, **training_args):
         self.model_checkpoint = model_checkpoint
 
@@ -26,21 +31,21 @@ class FiNER_finetune():
             "learning_rate": 2e-5,
             "per_device_train_batch_size": 16,
             "per_device_eval_batch_size": 16,
-            "num_train_epochs": 10,
+            "num_train_epochs": 10, 
             "weight_decay": 0.01,
             "eval_strategy": "epoch",
             "save_strategy": "epoch",
             "load_best_model_at_end": True,
-            "metric_for_best_model": "f1",  # Use F1 score for model selection
-            "lr_scheduler_type": "linear",  # Linear learning rate decay
-            "warmup_ratio": 0.1,  # 10% warmup steps
+            "metric_for_best_model": "f1", 
+            "lr_scheduler_type": "linear", 
+            "warmup_ratio": 0.1, 
             "report_to": "none",
-            "save_total_limit": 2,  # Keep last 2 model checkpoints
+            "save_total_limit": 2, #How many checkpoints to keep during training.
+                                        #Will save at least two. The last and the best.
         }
         self.training_args.update(training_args)
 
-        self.label_list = ['O', 'B-PER', 'I-PER', 'B-LOC', 'I-LOC', 'B-ORG', 'I-ORG']
-
+        self.label_list = ['O', 'B-PER', 'I-PER', 'B-LOC', 'I-LOC', 'B-ORG', 'I-ORG'] #List of labels from dataset following the BIO standard.
         self.id2label = {
                     0: 'O',
                     1: 'B-PER',
@@ -64,16 +69,16 @@ class FiNER_finetune():
         print("Loading dataset...")
         self.dataset = load_dataset("gtfintechlab/finer-ord-bio")
 
+    #The dataset has one row that contains a None. This crashes the training
     def has_no_none_tokens(self, example):
         return None not in example["tokens"]
     
-
+    #Based on code by Tariq Yousef
+        #\cite{https://colab.research.google.com/drive/1o0jjpWMgG1cX7eAYsV7hf2ptrOeS1fqS?usp=sharing#scrollTo=Ch-MVIk67p47}
     def tokenize_and_align_labels(self, examples):
         tokenized_inputs = self.tokenizer(
             examples["tokens"], truncation=True, is_split_into_words=True
         )
-        
-        #print(f"Tokenized inputs: {tokenized_inputs}")  # Debug print
 
         labels = []
         for i, label in enumerate(examples["tags"]):
@@ -83,7 +88,7 @@ class FiNER_finetune():
 
             for word_idx in word_ids:
                 if word_idx is None:  # Special tokens (e.g., [CLS], [SEP])
-                    label_ids.append(-100)  # Ignore special tokens
+                    label_ids.append(-100)  # The -100 label is commonly used for token to not be used in loss calculation
                 elif word_idx != previous_word_idx:  # Start of a new word
                     label_ids.append(label[word_idx])  # Add the correct label
                 else:  # Continuation of a word (sub-word token)
@@ -91,13 +96,12 @@ class FiNER_finetune():
 
                 previous_word_idx = word_idx
 
-            #print(f"Labels: {label_ids}")  # Debug print
             labels.append(label_ids)
 
         tokenized_inputs["labels"] = labels
         return tokenized_inputs
 
-
+    # Boilerplate AI Code
     def process_data(self, max_length=512):
         print("Processing dataset...")
         # Filter out examples with None tokens
@@ -115,6 +119,7 @@ class FiNER_finetune():
         # For example, truncate or pad sequences
         self.dataset = self.dataset.with_format("torch")
     
+    #\cite{https://colab.research.google.com/drive/1o0jjpWMgG1cX7eAYsV7hf2ptrOeS1fqS?usp=sharing#scrollTo=Ch-MVIk67p47}
     def compute_metrics(self, predictions_and_labels):
         predictions, labels = predictions_and_labels
         predictions = np.argmax(predictions, axis=2)
@@ -143,7 +148,7 @@ class FiNER_finetune():
             num_labels=len(self.label_list),
             id2label=self.id2label,
             label2id=self.label2id,
-            ignore_mismatched_sizes=True  # Add this parameter
+            ignore_mismatched_sizes=True  # Used to ignore discrepency in the size of output layer
         )
 
     def train(self):
@@ -159,10 +164,10 @@ class FiNER_finetune():
 
         args = TrainingArguments(
             **self.training_args,
-            logging_dir=os.path.join(self.training_args["output_dir"], "logs"),  # Add logging directory
+            logging_dir=os.path.join(self.training_args["output_dir"], "logs"),  # Logs are saved in a folder in the output directory
             logging_strategy="epoch",
-            logging_steps=20,  # Log every 10 steps
-            push_to_hub=False  # Disable if you're not using Hugging Face Hub
+            logging_steps=20,  # Log every n steps
+            push_to_hub=False  # Not using hugginface hub
         )
 
         trainer = Trainer(
@@ -176,27 +181,28 @@ class FiNER_finetune():
         )
 
 
-        # Optional: Print some dataset statistics
+        # Dataset stats
         print(f"Training dataset size: {len(self.dataset['train'])}")
         print(f"Validation dataset size: {len(self.dataset['validation'])}")
 
-        # Train and capture results
+        # Train and save results to variable
         train_result = trainer.train()
 
         # Save training results and metrics
         trainer.log_metrics("train", train_result.metrics)
         trainer.save_metrics("train", train_result.metrics)
 
-        # Define the path to the subfolder where you want to save the model and tokenizer
+        
         model_save_path = os.path.join(self.training_args["output_dir"], "model")
-
-        # Save the model to the subfolder
+        # The finale/best fine-tuned model is saved to a model folder in the output directory
         trainer.save_model(model_save_path)
 
         # Save the tokenizer to the same subfolder
         self.tokenizer.save_pretrained(model_save_path)
-        print(f"Training complete. Model and tokenizer saved to {model_save_path}")
+        print(f"Training complete. Model and tokenizer saved!")
 
+
+        #TODO: Fix to get at least one nice graph :|
         # Plot training metrics
         # Extract logged data
         logs = trainer.state.log_history
