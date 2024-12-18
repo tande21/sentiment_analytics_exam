@@ -1,3 +1,8 @@
+"""
+file: finNER_finetuner.py
+purpose: This file is used to, 
+    fine tune our NER model. 
+"""
 from transformers import (
     AutoTokenizer,
     AutoModelForTokenClassification,
