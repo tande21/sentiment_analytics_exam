@@ -1,6 +1,8 @@
 """
 file name: data_preprocessing.py
-purpose: This file will handle all the data
+purpose: This file will handle all the data,
+    mostly reddit post. But also,
+    other data needed during the project.
 """
 import kagglehub
 import pandas as pd
@@ -30,7 +32,6 @@ class DataHandler:
     
     Parameters:
         class_name: the name of the data class you gonna save
-        
     """
 
     def __init__(self, class_name):
@@ -55,7 +56,6 @@ class DataHandler:
         
         # Models
         self.ner_data = None
-
 
         # CSV SAVINGS LOCALLY
         self.output_df_to_csv('./DATA/', 'reddit_data')
@@ -376,15 +376,10 @@ def tickers_timeseries_to_csv(tickers, START, END):
 
 
 
-tickers = ['GME', 'AMC', 'ROBINHOOD']
+##### To download tickers needed to analysis #####
+tickers = ['GME', 'AMC', 'ROBINHOOD', 'TSLA']
 START = '2020-09-29'
 END = '2021-08-16'
-tickers_timeseries_to_csv(tickers, START, END)
-
-
-# 
 # tickers_timeseries_to_csv(tickers, START, END)
-# sp500(START, END)
-
 
 # download_annotate()
