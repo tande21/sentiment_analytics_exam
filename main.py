@@ -59,12 +59,28 @@ import ast
 from semantic_search_faiss import SemanticSearch
 from record_linking import RecordLinking
 
+# Our file
+import helper
+from helper import (
+    print_dict, 
+    load_data, 
+    count_value_occurrences, 
+    append_dict_to_dataframe, 
+    save_dataframe_to_csv
+)
+import ner_output_processing 
+from ner_output_processing import (
+    filter_org_entities,
+    combine_org_entities_with_ids,
+    ensure_unique_values,
+    remove_values_with_prefix
+)
+
+
 def create_and_save_data_class(class_name):
     DataHandler = data_preprocessing.DataHandler(class_name)
     DataHandler.saveDataHandlerClass(class_name)
 
-def load_data(path): 
-    return pd.read_csv(path)
 
 # CONSTANTS
 CLASS_NAME = 'DataHandler' 
@@ -75,90 +91,6 @@ DATAHANDLER = data_preprocessing.loadDataHandler(CLASS_NAME)
 REDDIT_DATA = DATAHANDLER.reddit_data
 PROCESSED_NER_DATA = load_data('./DATA/processed_reddit_data_ALL_DATA.csv') # NU SLUTTER NER PIPELINE
 COMPLETED_DF = None
-
-def save_dataframe_to_csv(file_path, dataframe):
-    try:
-        dataframe.to_csv(file_path, index=False)  # Save without including the index column
-        print(f"DataFrame successfully saved to {file_path}")
-    except Exception as e:
-        print(f"Error saving DataFrame to CSV: {e}")
-
-def filter_org_entities(entity_list):
-    if not isinstance(entity_list, list):
-        return []
-    return [entity for entity in entity_list if entity.get('entity') == 'ORG']
-
-def combine_org_entities_with_ids(df, column_name='entities'):
-    combined_dict = {}
-    for index, row in df.iterrows():
-        entities = row[column_name]
-        if isinstance(entities, list):
-            org_words = [entity['word'] for entity in entities 
-                         if isinstance(entity, dict) and entity.get('entity') == 'ORG']
-            if org_words:
-                combined_dict[index] = org_words
-    return combined_dict
-
-def print_dict(my_dict, n_lines):
-    count = 0
-    for key, value in my_dict.items():
-        print(key, value)
-        count += 1
-        if count == n_lines:
-            break
-    print("Number of keys:", len(my_dict))
-
-def count_value_occurrences(my_dict, value_name):
-    value_count = 0
-    total_values = 0
-    for value in my_dict.values():
-        if isinstance(value, list):
-            value_count += value.count(value_name)
-            total_values += len(value)
-        else:
-            if value == value_name:
-                value_count += 1
-            total_values += 1
-    print(f"The value '{value_name}' appears {value_count} time(s).")
-    print(f"Total keys: {len(my_dict)}, Total values: {total_values}.")
-
-def ensure_unique_values(my_dict):
-    new_dict = {}
-    for key, value in my_dict.items():
-        if isinstance(value, list):
-            seen = set()
-            unique_values = []
-            for item in value:
-                if item == "Ticker not found":
-                    if "Ticker not found" not in unique_values:
-                        unique_values.append(item)
-                elif item not in seen:
-                    seen.add(item)
-                    unique_values.append(item)
-            new_dict[key] = unique_values
-        else:
-            new_dict[key] = value 
-    return new_dict
-
-def remove_values_with_prefix(input_dict, prefix="##"):
-    cleaned_dict = {}
-    for key, value in input_dict.items():
-        if isinstance(value, list):
-            cleaned_values = [v for v in value if not (isinstance(v, str) and v.startswith(prefix))]
-            cleaned_dict[key] = cleaned_values
-        else:
-            cleaned_dict[key] = value
-    return cleaned_dict
-
-def append_dict_to_dataframe(df, data_dict, new_column_name='Processed_entities'):
-    df[new_column_name] = 0
-    for key, value in data_dict.items():
-        if key in df.index:
-            df.at[key, new_column_name] = value
-        else:
-            df.loc[key] = [0] * len(df.columns)
-            df.at[key, new_column_name] = value
-    return df
 
 
 if __name__ == "__main__":
@@ -197,6 +129,14 @@ if __name__ == "__main__":
     updated_dict = ensure_unique_values(updated_dict)
     print_dict(updated_dict, 500)
     COMPLETED_DF = append_dict_to_dataframe(REDDIT_DATA, updated_dict, 'Processed_entities_result')
+
+        ####################
+        ##### MAPPING ######
+        ####################
+
+
+
+
 
 
     print('###########################')
