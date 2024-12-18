@@ -1,3 +1,10 @@
+"""
+file: mapping.py
+purpose: This file was used in the beginning,
+    for mapping. We ended up, doing it another way,
+    since we could not run it on the entire dataset.
+"""
+
 import pandas as pd
 from fuzzywuzzy import process, fuzz
 import requests
