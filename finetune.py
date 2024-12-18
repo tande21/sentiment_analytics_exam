@@ -1,11 +1,17 @@
+"""
+file: finetune.py
+purpose: Handle the class from finNER_finetuner.py
+    to execute and fine tune the model. 
+"""
 from finNER_finetuner import FiNER_finetune
 def main():
-    # Specify the model checkpoint
+    
     # "dslim/distilbert-NER"
     # "ProsusAI/finbert"
+    # Specify the model checkpoint
     model_checkpoint = "ProsusAI/finbert"
     training_args = {
-            "output_dir": "finbertNER",
+            "output_dir": "distilbert-finNER",
             "learning_rate": 2e-5,
             "per_device_train_batch_size": 16,
             "per_device_eval_batch_size": 16,

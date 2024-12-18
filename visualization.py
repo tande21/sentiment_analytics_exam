@@ -2,6 +2,9 @@
 file: visualization.py
 purpose: These are the functions we use to visualize,
     doing the project for timeseries and reddit post.
+
+SOURCE:  Some of the plots have been copied from another project
+    - https://github.com/Holycoffee1337/AppliedExam/blob/main/Problem2/visualization.py
 """
 
 

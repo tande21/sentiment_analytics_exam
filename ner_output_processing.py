@@ -1,20 +1,20 @@
 """
 file name: NER_output_processing
-purpose: Functions to process the output from NER
-
+purpose: Functions to process the output from NER,
+    so the data fit the pipeline.
+    The data from need need to go into,
+    record linking model. 
 """
 from semantic_search_faiss import SemanticSearch
 from record_linking import RecordLinking
 
 
-# NER Processing 
 def filter_org_entities(entity_list):
     if not isinstance(entity_list, list):
         return []
     return [entity for entity in entity_list if entity.get('entity') == 'ORG']
 
 
-# NER Processing 
 def combine_org_entities_with_ids(df, column_name='entities'):
     combined_dict = {}
     for index, row in df.iterrows():
@@ -27,7 +27,6 @@ def combine_org_entities_with_ids(df, column_name='entities'):
     return combined_dict
 
 
-# NER Processing 
 def ensure_unique_values(my_dict):
     new_dict = {}
     for key, value in my_dict.items():
@@ -47,7 +46,6 @@ def ensure_unique_values(my_dict):
     return new_dict
 
 
-# NER Processing
 def remove_values_with_prefix(input_dict, prefix="##"):
     cleaned_dict = {}
     for key, value in input_dict.items():

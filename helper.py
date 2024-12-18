@@ -1,12 +1,11 @@
 """
 file name: helper.py
 purpose: Small functions that are,
-    self explanatory
+    self explanatory.
 """
 import pandas as pd
 
 
-# Helper function
 def print_dict(my_dict, n_lines):
     count = 0
     for key, value in my_dict.items():
@@ -17,7 +16,6 @@ def print_dict(my_dict, n_lines):
     print("Number of keys:", len(my_dict))
 
 
-# helper function
 def save_dataframe_to_csv(file_path, dataframe):
     try:
         dataframe.to_csv(file_path, index=False)  # Save without including the index column
@@ -26,12 +24,10 @@ def save_dataframe_to_csv(file_path, dataframe):
         print(f"Error saving DataFrame to CSV: {e}")
 
 
-# Helper function
 def load_data(path): 
     return pd.read_csv(path)
 
 
-# Helper function (change name)    
 def count_value_occurrences(my_dict, value_name):
     value_count = 0
     total_values = 0
@@ -47,7 +43,6 @@ def count_value_occurrences(my_dict, value_name):
     print(f"Total keys: {len(my_dict)}, Total values: {total_values}.")
 
 
-# Helper function
 def append_dict_to_dataframe(df, data_dict, new_column_name='Processed_entities'):
     df[new_column_name] = 0
     for key, value in data_dict.items():

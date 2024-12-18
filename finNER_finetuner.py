@@ -1,3 +1,8 @@
+"""
+file: finNER_finetuner.py
+purpose: This file is used to, 
+    fine tune our NER model. 
+"""
 from transformers import (
     AutoTokenizer,
     AutoModelForTokenClassification,
@@ -205,30 +210,26 @@ class FiNER_finetune():
         #TODO: Fix to get at least one nice graph :|
         # Plot training metrics
         # Extract logged data
+        # Extract step-wise logged data
         logs = trainer.state.log_history
 
-        # Filter logs for training and evaluation losses
-        epochs = [log["epoch"] for log in logs if "epoch" in log]
-        train_losses = [log["loss"] for log in logs if "loss" in log]
-        eval_losses = [log["eval_loss"] for log in logs if "eval_loss" in log]
+        # Separate training and evaluation logs
+        train_steps = [log["step"] for log in logs if "step" in log and "loss" in log]
+        train_losses = [log["loss"] for log in logs if "step" in log and "loss" in log]
+        eval_steps = [log["step"] for log in logs if "step" in log and "eval_loss" in log]
+        eval_losses = [log["eval_loss"] for log in logs if "step" in log and "eval_loss" in log]
 
-        # Align lengths
-        min_length = min(len(epochs), len(train_losses), len(eval_losses))
-        epochs = epochs[:min_length]
-        train_losses = train_losses[:min_length]
-        eval_losses = eval_losses[:min_length]
-
-        # Plot
+        # Plot step-wise loss
         plt.figure(figsize=(10, 6))
-        plt.plot(epochs, train_losses, label="Train Loss", marker="o")
-        plt.plot(epochs, eval_losses, label="Eval Loss", marker="o")
-        plt.xlabel("Epoch")
+        plt.plot(train_steps, train_losses, label="Train Loss", marker=".", alpha=0.7)
+        plt.plot(eval_steps, eval_losses, label="Eval Loss", marker=".", alpha=0.7)
+        plt.xlabel("Step")
         plt.ylabel("Loss")
-        plt.title("Learning Curve")
+        plt.title("Step-Wise Loss")
         plt.legend()
         plt.grid()
-        plt.savefig(os.path.join(self.training_args["output_dir"], "learning_curve.png"))
-        print(f"Learning curve saved to {os.path.join(self.training_args['output_dir'], 'learning_curve.png')}")
+        plt.savefig(os.path.join(self.training_args["output_dir"], "step_wise_loss.png"))
+        print(f"Step-wise loss curve saved to {os.path.join(self.training_args['output_dir'], 'step_wise_loss.png')}")
 
         # Evaluate on the test set
         print("Evaluating the best model on the test set...")
