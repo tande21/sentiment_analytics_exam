@@ -293,27 +293,6 @@ class DataHandler:
         # Visualize after full preprocessing
         self.visualize_common_words(df, title2)
         
-        #REMOVE COMMMENT LATER :)
-
-        """
-        - def(...) -> filter and remove unecessary entitites
-                - :KUN ORGS
-        - def(...) -> Create a function: that have ORG key, and all orgs inside values
-
-        
-        - Filter NER data
-            - Only ORGS
-            - 
-            - Then map to .csv 
-
-
-
-
-
-
-        """
-
-
         df_NER = self.extractNERs()
         self.ner_data = df_NER
         print(df_NER['entities'])
@@ -348,11 +327,11 @@ class DataHandler:
         self.ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
         
         # df["entities"] = df["combined_text"].head().apply(self.extract_entities)
-        # df.loc[:49, "entities"] = df["combined_text_stop"].iloc[:50].apply(self.extract_entities)
+        df.loc[:49, "entities"] = df["combined_text_stop"].iloc[:50].apply(self.extract_entities)
         # df.loc[:199, "entities"] = df["combined_text_stop"].iloc[:200].apply(self.extract_entities)
 
         #### ENTIRE DATASET ####
-        df["entities"] = df["combined_text_stop"].apply(self.extract_entities)
+        # df["entities"] = df["combined_text_stop"].apply(self.extract_entities)
 
 
 
