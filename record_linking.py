@@ -6,7 +6,6 @@ ARGS:
 
 OUTPUT:
     Updated dictionary: ids: ... values: ['GME', GME'] ...
-
 """
 
 import faiss
@@ -47,37 +46,6 @@ class RecordLinking:
         distances, indices = self.index.search(np.array([entity_embedding]), top_k)
         return df.iloc[indices[0]].assign(Distance=distances[0])
 
-        #def _map_entities_to_similar(self):
-        #    updated_dict = {} 
-
-        #    for key, value in self.entity_dict.items():
-        #        if isinstance(value, list):
-        #            # If value is a list, find similar matches for each item
-        #            updated_dict[key] = [self.find_similar(v, top_k=1)['short name'].iloc[0] for v in value]
-        #        else:
-        #            # If value is a string, find the most similar match
-        #            updated_dict[key] = self.find_similar(value, top_k=1)['short name'].iloc[0]
-
-        #    # self.entity_dict_output = updated_dict
-        #    return updated_dict
-
-        # def _map_entities_to_similar(self, keys_to_process=50):
-        #     if keys_to_process is None:
-        #         keys_to_process = []  # specify a list of keys you want to test
-        #     
-        #     updated_dict = {}
-        #     for key, value in self.entity_dict.items():
-        #         if key not in keys_to_process:
-        #             continue  # skip keys not in keys_to_process
-        # 
-        #         if isinstance(value, list):
-        #             updated_dict[key] = [self.find_similar(v, top_k=1)['short name'].iloc[0] for v in value]
-        #         else:
-        #             updated_dict[key] = self.find_similar(value, top_k=1)['short name'].iloc[0]
-        # 
-        #     return updated_dict
-        # 
-
     def _map_entities_to_similar(self, limit=None, keys_to_process=None):
         updated_dict = {}
         items = list(self.entity_dict.items())
@@ -90,9 +58,6 @@ class RecordLinking:
         keys_to_process = set(keys_to_process) if keys_to_process else None
         
         for key, value in items:
-            # Skip invalid keys (NaN or non-string types)
-            #if pd.isna(key) or not isinstance(key, str):
-            #    continue
             if pd.isna(key):
                 continue
 
@@ -102,15 +67,11 @@ class RecordLinking:
                 continue
             
             if isinstance(value, list):
-                # Skip invalid list values
                 cleaned_values = [v for v in value if isinstance(v, str) and not pd.isna(v)]
                 if not cleaned_values:
                     continue
-                # updated_dict[key] = [self.find_similar(v, top_k=1)['short name'].iloc[0] for v in cleaned_values]
                 updated_dict[key] = [self.find_similar(v, top_k=1)['ticker'].iloc[0] for v in cleaned_values]
             elif isinstance(value, str) and not pd.isna(value):
-                # Process valid string values
-                # updated_dict[key] = self.find_similar(value, top_k=1)['short name'].iloc[0]
                 updated_dict[key] = self.find_similar(value, top_k=1)['ticker'].iloc[0]
             else:
                 # Skip invalid or empty values
