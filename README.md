@@ -1,6 +1,12 @@
 # Project
 In this project we are aiming to creating a machine learning pipeline. It is meant to be a proof of concept, on how to create a pipeline for bigger projects, that depends on huge amount of data, that needs to be handled. 
 
+## Folders
+- **DATA** - Contains all the data sets used in the code
+- **DATA/PLOTS** - Contains plots and visualizations of data processing used in the report
+- **DATA/TIMESERIES** - Contains timeseries data for specific stocks
+- **Sentiment analyais** - Contins the files for testing each sentiment model. The underlying data it is trained on can also be found in DATA -> stockIt_posts_dataset and is hard coded in the files
+
 ## File Descriptions
 - main.py: Executes the entire pipeline (currently commented out).
 - data_preprocessing.py: Prepares and processes Reddit posts for the pipeline.
