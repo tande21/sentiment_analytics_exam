@@ -1,86 +1,6 @@
 """
 file name: data_preprocessing.py
 purpose: This file will handle all the data
-
-TODO: 
-    - + rename all the columns in stock
-    - + remove time from post 
-    - + Load the annotated data
-
-    # Analysis + Visual functions
-    - + Common words 2 time: Before and after
-    - - Plot score histogram
-    - + Plot histogram of length post
-    - + 3 plot for common words before emojis.
-    ? ? (lowercase i visualization?)
-    - - plot number of posts each day.
-    - - Plot sp500 index in time period
-
-    # Processing steps
-    - + Drop those columns that are not needed
-    - + concattenate title and body
-    - + remove http www, http com
-    - + Remove stopwords
-    - + remove empty rows (for combined_text) 23 empty rows 
-    - + get emojis to useful text 
-    - - Extract entities with FTNER model
-    - + Create a new combined_text_without_stopwords
-    - + Get sp500 data into the class
-
-    - + Correcting dates (removing timestamps)
-    - + Create a function, that find first and last dates in reddit post
-    - + Get the sp500 data 
-    - + Integrate sp500 data into the class
-        
-        ## Maybes - if time
-            - - ??Maybe look after if they are talking about shorting? 
-            - - ??Add titles multiple times ?? To see a bigger effect
-
-    # NER MODEL
-    - - Add Entities column to dataframe.
-            - https://huggingface.co/dslim/distilbert-NER
-            - Make a small amount of output too see, if the NER Functions work.
-     
-    # Mapping steps 
-    - + Implement Record Linking
-
-    # Create visualizaton on results
-        - - NER-Model: See how it improve on accuracy
-
-
-    # THE CONNECTION OF THE PIPELINE
-        - - Create mapping on Data -> To link -> Output: Only tickers left
-        - - Create connection between NER To Data
-        - - Create connection between Nerd -> Search function -> Output dictionary: With Tickers key: Post: Values
-        - - MAPPING TO -> SENTIMENT
-
-
-    # SUMMARIEZE DATA ()
-        - - START and END DATE 
-        - - Number of ROWS
-        - - 
-                
-
-
-    # TROUBLES
-    - inconsistent path names
-
-
-    # DEBUGGER
-        - Create a debugger function to find inconsistensy
-       
-
-    # DATA USED 
-        - REDDIT post
-        - US stock tickers (Only the US): https://www.kaggle.com/datasets/marketahead/all-us-stocks-tickers-company-info-logos
-        - TIMESERIES From yahoo
-
-
-TODO:
-- Mapping function from company name to ticker:  
-
-
-
 """
 import kagglehub
 import pandas as pd
@@ -109,20 +29,17 @@ class DataHandler:
         _load_timeseries_data(...) can only use locally saved timeseries
     
     Parameters:
-        ...
+        class_name: the name of the data class you gonna save
         
     """
 
     def __init__(self, class_name):
         # PATHS 
         self.ner_model_path = './DATA/MODEL/NER_MODEL/'
-
-
-        # 
         self.class_name = class_name
-        self.stock_list = ['TSLA', 'MSFT'] # Figure out what stock to use
-        self.START = '2020-01-01'
-        self.END = '2022-01-01'
+        self.stock_list = ['GME', 'AMC'] # Figure out what stock to use
+        self.START = '2020-09-29'
+        self.END = '2021-08-16'
         
         # Data
         self.reddit_data = self._load_reddit_data()
@@ -132,8 +49,8 @@ class DataHandler:
         self.timeseries_data = self._load_timeseries_data(self.stock_list) 
         self.sp500_data =  None #self._load_sp500() 
 
-        self.start_date = None
-        self.end_date = None
+        self.start_date = '2020-09-29' 
+        self.end_date = '2021-08-16'
         # self.output_df_to_csv('./DATA/', 'reddit_data')
         
         # Models
@@ -197,8 +114,6 @@ class DataHandler:
                 df.rename(columns={df.columns[5]: 'Open'}, inplace=True)
                 df.rename(columns={df.columns[6]: 'Volume'}, inplace=True)
 
-
-    
                 # Convert the 'Date' column to datetime and set it as the index
                 df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
                 df.dropna(subset=['Date'], inplace=True)  # Drop rows without valid Date
@@ -333,8 +248,6 @@ class DataHandler:
         #### ENTIRE DATASET ####
         # df["entities"] = df["combined_text_stop"].apply(self.extract_entities)
 
-
-
         return df
 
     def extract_entities(self, text):
@@ -374,15 +287,6 @@ class DataHandler:
         return None
 
     
-    def debugger_helper(self):
-        """
-        Check for: 
-            - Empty combined_text are removed
-            - That stopwords are remove from data
-        """
-        return None
-
-
     """
     Getter functions
     """
@@ -472,11 +376,14 @@ def tickers_timeseries_to_csv(tickers, START, END):
 
 
 
-# tickers = ['TSLA', 'MSFT']
-# START = '2020-01-01'
-# END = '2022-01-01'
+tickers = ['GME', 'AMC', 'ROBINHOOD']
+START = '2020-09-29'
+END = '2021-08-16'
+tickers_timeseries_to_csv(tickers, START, END)
+
+
 # 
-# # tickers_timeseries_to_csv(tickers, START, END)
+# tickers_timeseries_to_csv(tickers, START, END)
 # sp500(START, END)
 
 
