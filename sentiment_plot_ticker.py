@@ -1,3 +1,12 @@
+"""
+file: sentiment_plot_ticker.py
+purpose: Take a TICKER and it's timeseries, 
+    plot the sentiment during the periond on the graph. 
+
+TODO:
+    - Make it do it on multiple tickers
+"""
+
 import pandas as pd
 import matplotlib
 # matplotlib.use('Agg')  # If you want interactive plots, remove this line
