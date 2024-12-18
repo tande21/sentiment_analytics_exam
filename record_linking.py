@@ -1,11 +1,14 @@
 """
-def our_new_func()
-ARGS:
-    dictionary: ids: values: ['GME', 'GAMESTOP'] .... and so on
-    COMPANY DATA: Columns: 'ticker', 'short name'
+file: record_linking.py
+purporse: mapping all company names to ticker values.
+    So all data is only tickers. 
 
-OUTPUT:
-    Updated dictionary: ids: ... values: ['GME', GME'] ...
+Exmaple:
+    ARGS:
+        dictionary: ids: values: ['GME', 'GAMESTOP'] .... and so on
+        COMPANY DATA: Columns: 'ticker', 'short name'
+    OUTPUT:
+        Updated dictionary: ids: ... values: ['GME', GME'] ...
 """
 
 import faiss
@@ -28,6 +31,7 @@ class RecordLinking:
         semantic_model = self.semantic_model 
         # df['Embedding'] = df['short name'].apply(lambda x: semantic_model.encode(x))
 
+        # Adding ticker with short name (that is company names)
         df['combined'] = df['ticker'].astype(str) + ' ' + df['short name'].astype(str)
         df['Embedding'] = df['combined'].apply(lambda x: semantic_model.encode(x))
 
@@ -46,6 +50,7 @@ class RecordLinking:
         distances, indices = self.index.search(np.array([entity_embedding]), top_k)
         return df.iloc[indices[0]].assign(Distance=distances[0])
 
+    
     def _map_entities_to_similar(self, limit=None, keys_to_process=None):
         updated_dict = {}
         items = list(self.entity_dict.items())
