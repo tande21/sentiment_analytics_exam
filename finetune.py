@@ -1,3 +1,8 @@
+"""
+file: finetune.py
+purpose: Handle the class from finNER_finetuner.py
+    to execute and fine tune the model. 
+"""
 from finNER_finetuner import FiNER_finetune
 def main():
     
