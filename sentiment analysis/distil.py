@@ -1,3 +1,7 @@
+"""
+This code is based on the supplied code for the sentiment model: https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english
+"""
+
 import torch
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
 
@@ -5,29 +9,23 @@ from transformers import DistilBertTokenizer, DistilBertForSequenceClassificatio
 tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 model = DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
 
-# Define the function
 def distil(text):
     print(f"Processing text: {text}")
     
-    # Tokenize input text
     inputs = tokenizer(text, return_tensors="pt")
     print(f"Tokenized input: {inputs}")
     
-    # Perform inference
     with torch.no_grad():
         logits = model(**inputs).logits
         print(f"Logits: {logits}")
     
-    # Get predicted class ID and corresponding label
     predicted_class_id = logits.argmax().item()
     predicted_label = model.config.id2label[predicted_class_id]
     
-    # Print results
     print(f"Predicted Class ID: {predicted_class_id}")
     print(f"Predicted Label: {predicted_label}")
-    print("-" * 50)  # Separator for readability
+    print("-" * 50) 
 
-# List of sentences to process
 sentences = [
     # Casual language
     "Had a bad day",

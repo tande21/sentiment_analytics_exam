@@ -1,3 +1,7 @@
+"""
+This code is based on the supplied code for the sentiment model: https://huggingface.co/yiyanghkust/finbert-tone
+"""
+
 from transformers import BertTokenizer, BertForSequenceClassification
 from transformers import pipeline
 

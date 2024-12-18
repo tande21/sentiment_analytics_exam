@@ -1,3 +1,7 @@
+"""
+This code is based on the supplied code for the sentiment model: https://huggingface.co/ProsusAI/finbert
+"""
+
 import os
 
 # Disable oneDNN optimizations
@@ -12,17 +16,11 @@ def sentAnalysis(text):
     model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
     tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
 
-    # Step 1: Tokenize the input text
-    # inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True)
     inputs = tokenizer(text, return_tensors="pt")
-
-    # Step 2: Get model predictions
     outputs = model(**inputs)
 
-    # Step 3: Apply softmax to get probabilities
     probs = softmax(outputs.logits, dim=1)
 
-    # Step 4: Interpret results
     labels = ["negative", "neutral", "positive"]
     predicted_class = torch.argmax(probs, dim=1).item()
     sentiment = labels[predicted_class]

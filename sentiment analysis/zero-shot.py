@@ -1,3 +1,8 @@
+"""
+This file is based on material from https://github.com/christianvedels/News_and_Market_Sentiment_Analytics
+In DS821: News and Market Sentiment Analytics
+"""
+
 from transformers import AutoTokenizer, AutoModel
 import torch
 import numpy as np
